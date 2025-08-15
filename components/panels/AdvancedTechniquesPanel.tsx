@@ -1,19 +1,21 @@
 import React from 'react';
-import { BakingParameters, Preferment, ColdFermentation, UnitSystem, PrefermentType } from '../../types';
+import { BakingParameters, Preferment, ColdFermentation, UnitSystem, PrefermentType, WorkSchedule } from '../../types';
 import { PREFERMENT_TYPE_OPTIONS } from '../../constants';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { TranslationKey } from '../../i18n/locales';
 import InputSlider from '../InputSlider';
 import { Icon } from '../Icon';
+import Tooltip from '../Tooltip';
 
 interface AdvancedTechniquesPanelProps {
     params: BakingParameters;
     handleAdvancedChange: (category: 'preferment' | 'coldFermentation', field: keyof Preferment | keyof ColdFermentation, value: any) => void;
+    handleWorkScheduleChange: (field: keyof WorkSchedule, value: any) => void;
     handleParamChange: (field: keyof BakingParameters, value: any) => void;
     unitSystem: UnitSystem;
 }
 
-export const AdvancedTechniquesPanel: React.FC<AdvancedTechniquesPanelProps> = ({ params, handleAdvancedChange, handleParamChange, unitSystem }) => {
+export const AdvancedTechniquesPanel: React.FC<AdvancedTechniquesPanelProps> = ({ params, handleAdvancedChange, handleWorkScheduleChange, handleParamChange, unitSystem }) => {
     const { t } = useLocalization();
 
     return (
@@ -47,6 +49,29 @@ export const AdvancedTechniquesPanel: React.FC<AdvancedTechniquesPanelProps> = (
                  <div className="pt-2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">{t('advanced.bakeTimeTarget')}</label>
                     <input type="datetime-local" value={params.bakeTimeTarget} onChange={e => handleParamChange('bakeTimeTarget', e.target.value)} className="w-full p-2 bg-white border border-gray-300 rounded-md"/>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-gray-200">
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                         <Tooltip text={t('advanced.workSchedule.description')}>
+                            <label htmlFor="work-schedule-enabled" className="font-medium text-gray-700 flex items-center">{t('advanced.workSchedule.label')} <Icon icon="fa-solid fa-circle-info" className="ml-1.5 text-gray-400"/></label>
+                         </Tooltip>
+                        <input id="work-schedule-enabled" type="checkbox" checked={params.workSchedule.enabled} onChange={e => handleWorkScheduleChange('enabled', e.target.checked)} className="h-5 w-5 rounded border-gray-300 text-amber-600 focus:ring-amber-500"/>
+                    </div>
+                     {params.workSchedule.enabled && (
+                        <div className="pl-4 border-l-4 border-purple-200 mt-4 space-y-4 animate-fade-in py-4">
+                           <div className="grid grid-cols-2 gap-4">
+                               <div>
+                                   <label className="block text-sm font-medium text-gray-700 mb-1">{t('advanced.workSchedule.startTime')}</label>
+                                   <input type="time" value={params.workSchedule.startTime} onChange={e => handleWorkScheduleChange('startTime', e.target.value)} className="w-full p-2 bg-white border border-gray-300 rounded-md"/>
+                               </div>
+                               <div>
+                                   <label className="block text-sm font-medium text-gray-700 mb-1">{t('advanced.workSchedule.endTime')}</label>
+                                   <input type="time" value={params.workSchedule.endTime} onChange={e => handleWorkScheduleChange('endTime', e.target.value)} className="w-full p-2 bg-white border border-gray-300 rounded-md"/>
+                               </div>
+                           </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

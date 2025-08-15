@@ -17,6 +17,7 @@ import {
   Preferment,
   ColdFermentation,
   PrefermentType,
+  WorkSchedule,
 } from '../types';
 import { PRESETS, GUIDED_CRUMB_OPTIONS, GUIDED_CRUST_OPTIONS, GUIDED_LEAVENING_OPTIONS, FLOUR_OPTIONS, PREFERMENT_TYPE_OPTIONS } from '../constants';
 import { ouncesToGrams } from '../utils';
@@ -44,6 +45,11 @@ const initialParams: BakingParameters = {
       enabled: false,
       durationHours: 24,
       temperature: 4,
+  },
+  workSchedule: {
+      enabled: false,
+      startTime: '09:00',
+      endTime: '17:00',
   },
   bakeTimeTarget: '',
   ...initialBakingParams,
@@ -156,6 +162,17 @@ export const useBakingSetup = () => {
 
           return newParams;
       });
+      setActivePreset(null as any);
+  };
+
+  const handleWorkScheduleChange = (field: keyof WorkSchedule, value: any) => {
+      setParams(p => ({
+          ...p,
+          workSchedule: {
+              ...p.workSchedule,
+              [field]: value,
+          },
+      }));
       setActivePreset(null as any);
   };
 
@@ -379,6 +396,7 @@ export const useBakingSetup = () => {
     handlePresetSelect,
     handleGuidedSetupChange,
     handleAdvancedChange,
+    handleWorkScheduleChange,
     ingredientWeights,
     doughInsights,
   };

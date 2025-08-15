@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import * as chrono from 'chrono-node';
 import { BakingParameters, AIAnalysisResult, YieldParameters, BakingStyle } from '../types';
 import { getBakingAnalysis, getAIPlanFromQuery } from '../services/geminiService';
 import { calculateBakingMetrics } from '../services/bakingCalculator';
@@ -15,6 +16,29 @@ interface UseBakingPlannerProps {
     t: (key: TranslationKey, replacements?: Record<string, string | number>) => string;
     calculatorMode: CalculatorMode;
 }
+
+/**
+ * Pre-processes a Spanish query to convert ambiguous time expressions 
+ * (e.g., "8 de la tarde") into an unambiguous 24-hour format (e.g., "20:00")
+ * to ensure accurate parsing by chrono-node.
+ * @param query The user's natural language query.
+ * @returns The processed query string.
+ */
+const spanishTimeHeuristics = (query: string): string => {
+    // This regex looks for patterns like "a las 8 de la tarde" or "la 1 de la tarde"
+    const regex = /\b(a\s+las|las|la)\s+(\d{1,2})\s+de\s+la\s+(tarde|noche)\b/gi;
+    
+    return query.replace(regex, (match, prefix, hourStr) => {
+        let hour = parseInt(hourStr, 10);
+        // "1 de la tarde" is 13:00. "12 de la tarde" is 12:00 and is not modified.
+        if (hour >= 1 && hour <= 11) {
+             hour += 12;
+        }
+        // Return the prefix and the 24-hour format time, e.g., "a las 20:00"
+        return `${prefix} ${hour}:00`;
+    });
+};
+
 
 export const useBakingPlanner = ({
     params,
@@ -91,8 +115,37 @@ export const useBakingPlanner = ({
         setError(null);
         setResult(null);
         try {
-            const aiPlan = await getAIPlanFromQuery(naturalQuery, language);
+            let processedQuery = naturalQuery;
+            if (language === 'es') {
+                processedQuery = spanishTimeHeuristics(naturalQuery);
+            }
+            
+            const parser = language === 'es' ? chrono.es : chrono.en;
+            const parsedDate = parser.parseDate(processedQuery, new Date(), { forwardDate: true });
+            
+            let precalculatedBakeTime: string | undefined = undefined;
+            if (parsedDate) {
+                precalculatedBakeTime = parsedDate.toISOString();
+            }
+
+            // IMPORTANT: Pass the original query to the AI for context, but the pre-calculated time for accuracy.
+            const aiPlan = await getAIPlanFromQuery(naturalQuery, language, precalculatedBakeTime);
             const { bakingParameters, yieldParameters, analysis } = aiPlan;
+
+            if (bakingParameters.bakeTimeTarget) {
+                const d = new Date(bakingParameters.bakeTimeTarget);
+                if (!isNaN(d.getTime())) {
+                    // Format for datetime-local input: YYYY-MM-DDTHH:mm
+                    const year = d.getFullYear();
+                    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+                    const day = d.getDate().toString().padStart(2, '0');
+                    const hours = d.getHours().toString().padStart(2, '0');
+                    const minutes = d.getMinutes().toString().padStart(2, '0');
+                    bakingParameters.bakeTimeTarget = `${year}-${month}-${day}T${hours}:${minutes}`;
+                } else {
+                    bakingParameters.bakeTimeTarget = ''; // Clear if invalid date
+                }
+            }
 
             setParams(p => ({ ...p, ...bakingParameters }));
             setYieldParams(yp => ({

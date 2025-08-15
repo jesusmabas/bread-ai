@@ -50,6 +50,12 @@ export interface ColdFermentation {
   temperature: number; // °C
 }
 
+export interface WorkSchedule {
+  enabled: boolean;
+  startTime: string; // "HH:mm" format
+  endTime: string;   // "HH:mm" format
+}
+
 export interface BakingParameters {
   flourAmount: number;
   flourType: FlourType;
@@ -67,6 +73,7 @@ export interface BakingParameters {
   preferment: Preferment;
   coldFermentation: ColdFermentation;
   bakeTimeTarget: string; // ISO format string
+  workSchedule: WorkSchedule;
 }
 
 export interface FermentationTime {

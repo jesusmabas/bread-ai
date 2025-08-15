@@ -11,6 +11,25 @@ if (!API_KEY) {
 
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
+const PAN_SABERIUS_SYSTEM_PROMPT = `## Rol y Personalidad:
+Eres **PanSaberius**, un maestro panadero virtual de renombre internacional y experto en masas fermentadas. Tu nombre combina "Pan" y "Saber".
+Tu personalidad es **paciente, metódica, apasionada y profundamente técnica**. Transmites la filosofía artesanal: paciencia, observación y respeto por los procesos naturales. Te inspiras en maestros como Dan Lepard, Xabier Barriga, Jim Lahey, Peter Reinhart, Franco Pepe y Gabriele Bonci.
+
+## Objetivo Principal:
+Tu misión es guiar a los usuarios para crear **panes artesanales** y **pizzas auténticas**, enfocándote en **técnicas tradicionales** y **fermentaciones naturales**. Tu objetivo es generar respuestas JSON estructuradas y precisas basadas en los datos del usuario.
+
+## Especialidades y Conocimientos Clave:
+* **Panificación Artesanal:** Masa madre (levain), panes tradicionales (hogaza, pain de campagne), técnicas avanzadas (autólisis, plegados, fermentación controlada).
+* **Pizza Artesanal:** Estilos tradicionales (napoletana, romana al taglio), masas de larga fermentación y alta hidratación.
+
+## Filosofía:
+* **Tiempo como ingrediente**: "El mejor ingrediente del pan es el tiempo".
+* **Respeto por la tradición**: Honrar métodos centenarios con innovación consciente.
+* **Conexión sensorial**: Ayudar al usuario a entender la masa a través de los sentidos, no solo siguiendo un reloj.
+
+## Instrucciones Finales:
+Eres **PanSaberius**, un custodio de la tradición panadera. Tu misión es transmitir no solo técnicas, sino la pasión y el respeto por este arte milenario. Adapta tus consejos al equipamiento, harinas, clima y experiencia implícitos en los datos del usuario. Genera respuestas que sean a la vez alentadoras, técnicamente sólidas y que se ajusten estrictamente al esquema JSON solicitado.`;
+
 const analysisSchema = {
     type: Type.OBJECT,
     properties: {
@@ -148,11 +167,17 @@ export const getBakingAnalysis = async (params: BakingParameters, metrics: Calcu
   const ovenDetails = OVEN_PROFILE_OPTIONS[params.ovenProfile];
   const langName = language === 'es' ? 'Spanish' : 'English';
 
-  const prompt = `
-You are a world-class baking expert AI. Your goal is to provide a clear, reliable, and encouraging baking plan based on pre-calculated scientific data.
-The user's selected language is ${langName}. The JSON schema keys must remain in English. However, all user-facing string values within the JSON output (like in 'overview', 'notes', 'details', 'proTips', and 'coldFermentation.description', 'coldFermentation.timelineAdjustments') MUST be translated into ${langName}.
+  const workSchedulePrompt = params.workSchedule.enabled ? `
+**CRITICAL Scheduling Constraint: User's Active Baking Hours**
+- The user is ONLY available for active tasks (mixing, folding, shaping, baking) between ${params.workSchedule.startTime} and ${params.workSchedule.endTime} each day.
+- You MUST schedule all steps that require user interaction within this window.
+- Use long, passive fermentation periods (especially cold fermentation in the refrigerator) to bridge the time outside of this active window. For example, if shaping finishes at the end of the day, schedule a cold proof overnight.
+` : '- No work schedule constraint.';
 
-A deterministic formula has calculated the core fermentation times. Your task is to interpret these numbers and create a qualitative, user-friendly plan.
+  const prompt = `
+Your task is to act as PanSaberius and generate a comprehensive baking plan in JSON. A deterministic formula has calculated the core fermentation times. Your role is to interpret these numbers and create a qualitative, user-friendly plan.
+
+The user's selected language is ${langName}. All user-facing string values within the JSON output MUST be translated into ${langName}. JSON keys must remain in English.
 
 **Recipe Parameters:**
 - Flour Amount: ${params.flourAmount}g
@@ -170,21 +195,23 @@ ${params.preferment.enabled ? `- Preferment: Using a ${params.preferment.type} w
 ${params.coldFermentation.enabled ? `- Cold Fermentation: The dough will be cold fermented for ${params.coldFermentation.durationHours}h at ${params.coldFermentation.temperature}°C.` : '- No cold fermentation is being used.'}
 ${params.bakeTimeTarget ? `- Target Bake Time: ${new Date(params.bakeTimeTarget).toLocaleString(language)}` : '- No target bake time.'}
 
+**Scheduling Constraints:**
+${workSchedulePrompt}
+
 **Core Calculated Times (in hours):**
 - Bulk Fermentation: ${metrics.bulkFermentationHours.toFixed(2)} hours
 - Final Proof: ${metrics.finalProofHours.toFixed(2)} hours
 
-**Your Task:**
-Generate a comprehensive baking plan in JSON format adhering to the provided schema.
-1.  **Overview**: Write a brief, encouraging overview.
-2.  **Fermentation Durations**: For 'bulkFermentation.duration' and 'finalProof.duration', convert the provided hours into a user-friendly range (e.g., 3.75 hours becomes "3h 30m - 4h").
-3.  **Fermentation Notes**: For 'bulkFermentation.notes' and 'finalProof.notes', provide key visual cues for the baker.
-4.  **Cold Proof**: If the user enabled cold fermentation, populate the 'coldProof' field with the duration and notes. The duration should match user input.
-5.  **Timeline**: Create a detailed step-by-step timeline. If 'Target Bake Time' is provided, calculate and include 'startTime' and 'endTime' (ISO 8601 strings) for all steps by working backwards from the target. Base step durations on the provided core times.
-6.  **Pro Tips**: Provide 3-4 actionable tips tailored to the recipe, especially for the 'Baking' step based on the oven profile.
-7.  **Cold Fermentation Analysis**: If relevant, populate the 'coldFermentation' analysis field. Explain benefits and instructions.
+**Instructions for JSON output:**
+1.  **Overview**: Write a brief, encouraging overview in your persona.
+2.  **Fermentation Durations**: Convert the provided hours into a user-friendly range (e.g., 3.75 hours becomes "3h 30m - 4h").
+3.  **Fermentation Notes**: Provide key visual cues for the baker.
+4.  **Cold Proof**: If user enabled cold fermentation, populate with the duration and notes. Duration should match user input.
+5.  **Timeline**: Create a detailed step-by-step timeline. If a 'Target Bake Time' is provided, calculate and include 'startTime' and 'endTime' (ISO 8601 strings) for all steps by working backwards from the target, STRICTLY adhering to the 'Active Baking Hours' constraint if provided.
+6.  **Pro Tips**: Provide 3-4 actionable tips. The 'Baking' step tip MUST be tailored to the oven profile.
+7.  **Cold Fermentation Analysis**: If relevant, populate this field, explaining benefits and instructions.
 
-Your output must be JSON that strictly follows the schema.
+Strictly adhere to the provided JSON schema.
 `;
 
   try {
@@ -192,6 +219,7 @@ Your output must be JSON that strictly follows the schema.
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
+        systemInstruction: PAN_SABERIUS_SYSTEM_PROMPT,
         responseMimeType: "application/json",
         responseSchema: analysisSchema,
         temperature: 0.5,
@@ -210,30 +238,50 @@ Your output must be JSON that strictly follows the schema.
   }
 };
 
-export const getAIPlanFromQuery = async (query: string, language: string): Promise<AIPlanResult> => {
+export const getAIPlanFromQuery = async (query: string, language: string, precalculatedBakeTime?: string): Promise<AIPlanResult> => {
     const langName = language === 'es' ? 'Spanish' : 'English';
+    
+    const timePromptSection = precalculatedBakeTime 
+    ? `
+**CRITICAL & PRE-CALCULATED BAKE TIME:**
+A precise target bake time has been calculated for you by a deterministic parser. You MUST use this exact time and reflect it in your response. DO NOT attempt to parse the time from the user query yourself.
+
+- **Pre-calculated Target Bake Time**: \`${precalculatedBakeTime}\`
+
+You MUST set the 'bakeTimeTarget' field in your JSON response to this exact value. Then, you MUST generate the full 'timeline' with calculated 'startTime' and 'endTime' for each step, working backwards from this precise target.
+`
+    : `
+**DATE/TIME CALCULATION RULES:**
+If the user specifies a target day or time (e.g., "this Sunday at 8 PM"), you must parse it and calculate the 'bakeTimeTarget'. Today's date is: \`${new Date().toISOString()}\`.
+The 'bakeTimeTarget' field must be a valid ISO 8601 string.
+After calculating the 'bakeTimeTarget', you MUST generate the full 'timeline' with calculated 'startTime' and 'endTime' for each step, working backwards from that target. If no time is specified, leave 'bakeTimeTarget' and timeline times empty.
+`;
+
     const prompt = `
-You are a master baker AI. Your task is to interpret a user's natural language request and convert it into a complete, structured baking plan in JSON format.
-Analyze the user's query for constraints (like time, temperature, yield) and desired outcomes (like 'puffy crust', 'open crumb', 'sourdough tang').
-Infer any missing parameters based on baking science and the user's goals. For example, a "marked cornicione" on a pizza implies a Neapolitan style, which requires 'pizza-00' flour, high hydration (65-70%), minimal yeast, and a very hot 'baking-steel' or 'wood-fired' oven profile.
-If the user mentions "biga", "poolish", or "preferment", you must fill out the 'preferment' object and set 'enabled' to true.
-If they mention "cold proof" or "fridge for 2 days", you must fill out the 'coldFermentation' object and set 'enabled' to true.
-If the user mentions a desired baking day/time (e.g., "ready for Saturday dinner"), calculate the 'bakeTimeTarget' as an ISO string and generate a 'timeline' in the 'analysis' object with calculated 'startTime' and 'endTime' for each step.
-Fill in all fields of the JSON response. Your response must strictly adhere to the provided JSON schema.
-The user's selected language is ${langName}. The JSON schema keys must remain in English. However, all user-facing string values within the 'analysis' object of the JSON output MUST be translated into ${langName}.
+As PanSaberius, your task is to interpret a user's natural language request and convert it into a complete, structured baking plan in JSON format.
+Analyze the query for constraints (temperature, yield) and desired outcomes ('puffy crust').
+Infer missing parameters based on baking science and the user's goals. For example, a "marked cornicione" on a pizza implies a Neapolitan style ('pizza-00' flour, 65-70% hydration, 'baking-steel' profile).
+If "biga" or "poolish" are mentioned, enable and configure the 'preferment' object.
+If "cold proof" or "fridge" are mentioned, enable and configure the 'coldFermentation' object.
+If the user mentions their work schedule or availability (e.g., "I can only bake in the evenings"), you should enable and configure the 'workSchedule' object. Otherwise, leave it disabled.
+
+${timePromptSection}
+
+The user's selected language is ${langName}. All user-facing string values within the 'analysis' object of the JSON output MUST be translated into ${langName}. JSON keys must remain in English.
 
 User's query: "${query}"
 
-Today's date is ${new Date().toISOString()}.
+Fill in all fields of the JSON response, strictly adhering to the schema and the critical calculation rules above.
 `;
     try {
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
             contents: prompt,
             config: {
+                systemInstruction: PAN_SABERIUS_SYSTEM_PROMPT,
                 responseMimeType: "application/json",
                 responseSchema: aiPlanSchema,
-                temperature: 0.6,
+                temperature: 0.3,
             }
         });
 
@@ -258,8 +306,8 @@ export const getRescueAdvice = async (params: BakingParameters, problem: string,
   const langName = language === 'es' ? 'Spanish' : 'English';
 
   const prompt = `
-You are an expert baker providing emergency advice. A home baker is having a problem with their dough.
-The user's selected language is ${langName}. The JSON schema keys must remain in English. However, all user-facing string values within the JSON output (the 'advice' array) MUST be translated into ${langName}.
+As PanSaberius, a home baker needs your emergency advice.
+The user's selected language is ${langName}. The user-facing 'advice' array in the JSON output MUST be translated into ${langName}. JSON keys must remain in English.
 
 Their recipe parameters are:
 - Flour: ${params.flourAmount}g of ${flourDetails.name}
@@ -273,7 +321,7 @@ ${params.coldFermentation.enabled ? `- During a ${params.coldFermentation.durati
 
 The baker's problem: "${problem}"
 
-Based on their recipe and problem, provide a list of 2-3 clear, actionable, and concise rescue steps. Be encouraging. For example, if the dough is too slack, suggest a gentle re-shaping. If it's over-fermented, suggest making focaccia or flatbread. If it's under-fermented, suggest finding a warmer spot.
+Based on their recipe and problem, provide a list of 2-3 clear, actionable, and concise rescue steps in the JSON 'advice' array. Be encouraging and draw upon your deep expertise. For example, if the dough is slack, suggest gentle re-shaping. If over-fermented, suggest making focaccia.
 
 Your response MUST be in JSON format and strictly adhere to the provided schema.
 `;
@@ -295,6 +343,7 @@ Your response MUST be in JSON format and strictly adhere to the provided schema.
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
+        systemInstruction: PAN_SABERIUS_SYSTEM_PROMPT,
         responseMimeType: "application/json",
         responseSchema: rescueSchema,
         temperature: 0.7, // A bit more creative for problem solving

@@ -91,7 +91,13 @@ export const en = {
             durationHours: "Duration",
             temperature: "Fridge Temperature"
         },
-        bakeTimeTarget: "Target Bake Time"
+        bakeTimeTarget: "Target Bake Time",
+        workSchedule: {
+            label: "Active Baking Hours",
+            description: "Define a window for active tasks like mixing and shaping. The AI will use passive fermentation (especially cold) to bridge time outside this window.",
+            startTime: "Start Time",
+            endTime: "End Time"
+        }
     },
     params: {
         title: "Dough parameters",
@@ -416,7 +422,13 @@ export const es: typeof en = {
             durationHours: "Duración",
             temperature: "Temperatura del Refrigerador"
         },
-        bakeTimeTarget: "Hora de Horneado Objetivo"
+        bakeTimeTarget: "Hora de Horneado Objetivo",
+        workSchedule: {
+            label: "Horario de Horneado Activo",
+            description: "Define una ventana para tareas activas como mezclar y formar. La IA usará fermentación pasiva (especialmente en frío) para cubrir el tiempo fuera de esta ventana.",
+            startTime: "Hora de Inicio",
+            endTime: "Hora de Fin"
+        }
     },
     params: {
         title: "Parámetros de la masa",

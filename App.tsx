@@ -86,6 +86,7 @@ const App: React.FC = () => {
                         <AdvancedTechniquesPanel
                             params={params}
                             handleAdvancedChange={bakingSetup.handleAdvancedChange}
+                            handleWorkScheduleChange={bakingSetup.handleWorkScheduleChange}
                             handleParamChange={bakingSetup.handleParamChange}
                             unitSystem={bakingSetup.unitSystem}
                         />
