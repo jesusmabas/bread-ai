@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { Icon } from '../Icon';
 
@@ -14,6 +14,15 @@ export const NaturalLanguagePlannerPanel: React.FC<NaturalLanguagePlannerPanelPr
     naturalQuery, setNaturalQuery, handleNaturalQuery, isLoading, disabled
 }) => {
     const { t } = useLocalization();
+    const [placeholder, setPlaceholder] = useState('');
+
+    useEffect(() => {
+        const placeholders = t('planner.placeholder') as string[];
+        if (placeholders && placeholders.length > 0) {
+            const randomIndex = Math.floor(Math.random() * placeholders.length);
+            setPlaceholder(placeholders[randomIndex]);
+        }
+    }, [t]);
 
     return (
         <div className="bg-white rounded-lg shadow-lg p-6 relative">
@@ -30,7 +39,7 @@ export const NaturalLanguagePlannerPanel: React.FC<NaturalLanguagePlannerPanelPr
                     rows={3}
                     value={naturalQuery}
                     onChange={(e) => setNaturalQuery(e.target.value)}
-                    placeholder={t('planner.placeholder')}
+                    placeholder={placeholder}
                     className="w-full p-2 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500"
                     disabled={disabled}
                 />

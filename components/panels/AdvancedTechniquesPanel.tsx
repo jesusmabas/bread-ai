@@ -18,6 +18,7 @@ interface AdvancedTechniquesPanelProps {
 export const AdvancedTechniquesPanel: React.FC<AdvancedTechniquesPanelProps> = ({ params, handleAdvancedChange, handleWorkScheduleChange, handleParamChange, unitSystem }) => {
     const { t } = useLocalization();
     const daysOfWeek = t('common.daysShort') as string[];
+    const dayIndexMap = [1, 2, 3, 4, 5, 6, 0]; // Mon -> Sun
 
     const handleDayToggle = (dayIndex: number) => {
         const currentDays = params.workSchedule.days || [];
@@ -83,11 +84,12 @@ export const AdvancedTechniquesPanel: React.FC<AdvancedTechniquesPanelProps> = (
                                 <label className="block text-sm font-medium text-gray-700 mb-2 text-center">{t('advanced.workSchedule.availableDays')}</label>
                                 <div className="flex justify-center gap-1 flex-wrap">
                                     {daysOfWeek.map((day, index) => {
-                                        const isSelected = params.workSchedule.days.includes(index);
+                                        const dayIndex = dayIndexMap[index];
+                                        const isSelected = params.workSchedule.days.includes(dayIndex);
                                         return (
                                             <button
-                                                key={index}
-                                                onClick={() => handleDayToggle(index)}
+                                                key={dayIndex}
+                                                onClick={() => handleDayToggle(dayIndex)}
                                                 className={`w-10 h-10 rounded-full text-xs font-bold transition-colors ${
                                                     isSelected
                                                         ? 'bg-purple-600 text-white shadow'

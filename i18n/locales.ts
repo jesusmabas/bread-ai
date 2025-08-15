@@ -17,11 +17,17 @@ export const en = {
         load: "Load",
         print: "Print",
         error: "Error",
-        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        daysShort: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     },
     planner: {
         title: "Natural language planner",
-        placeholder: "e.g., I have 5 hours and a 28°C kitchen. I want to make 4 pizzas of 260g with a puffy crust.",
+        placeholder: [
+            "I want to bake two 900g country loaves for Sunday morning.",
+            "Plan a high-hydration ciabatta. I'm only free between 6 PM and 10 PM on weekdays.",
+            "Four 280g Neapolitan pizzas with a 24-hour cold ferment. My kitchen is 22°C.",
+            "A simple focaccia using instant yeast, ready in about 5 hours.",
+            "Sourdough baguette recipe, but I need to use a poolish preferment."
+        ],
         button: {
             default: "Create Plan with AI",
             loading: "Thinking..."
@@ -350,11 +356,17 @@ export const es: typeof en = {
         load: "Cargar",
         print: "Imprimir",
         error: "Error",
-        daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+        daysShort: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
     },
     planner: {
         title: "Planificador por lenguaje natural",
-        placeholder: "Ej: Tengo 5 horas y una cocina a 28°C. Quiero hacer 4 pizzas de 260g con un borde inflado.",
+        placeholder: [
+            "Quiero hornear dos hogazas de 900g para el domingo por la mañana.",
+            "Planifica una chapata de alta hidratación. Solo estoy libre entre las 18:00 y las 22:00 los días de diario.",
+            "Cuatro pizzas napolitanas de 280g con 24h de fermentación en frío. Mi cocina está a 22°C.",
+            "Una receta sencilla de focaccia con levadura instantánea, lista en unas 5 horas.",
+            "Receta de baguette de masa madre, pero usando un prefermento poolish."
+        ],
         button: {
             default: "Crear Plan con IA",
             loading: "Pensando..."
@@ -423,7 +435,7 @@ export const es: typeof en = {
         coldFermentation: {
             label: "Usar Fermentación en Frío",
             durationHours: "Duración",
-            temperature: "Temperatura del Refrigerador"
+            temperature: "Temperatura del Frigorífico"
         },
         bakeTimeTarget: "Hora de Horneado Objetivo",
         workSchedule: {
@@ -530,7 +542,7 @@ export const es: typeof en = {
         formulaNotes: {
             bulk: "Espera a que la masa aumente de volumen y muestre algunas burbujas en la superficie.",
             proof: "La masa debe verse hinchada y retroceder lentamente cuando se la presiona suavemente.",
-            cold: "La masa subirá lentamente en el refrigerador, desarrollando sabor."
+            cold: "La masa subirá lentamente en el frigorífico, desarrollando sabor."
         },
         formulaProTip: "¡Cambia al Panadero IA para obtener consejos profesionales adaptados a tus ingredientes y horno específicos!"
     },
@@ -559,7 +571,7 @@ export const es: typeof en = {
             bulk: "Deja que la masa fermente a la temperatura ambiente especificada, realizando pliegues si es necesario.",
             shaping: "Pre-forma suavemente y luego da la forma final a la masa.",
             proofing: "Deja que la masa formada fermente hasta que pase la prueba del dedo.",
-            cold: "Coloca la masa formada en el refrigerador durante {hours} horas.",
+            cold: "Coloca la masa formada en el frigorífico durante {hours} horas.",
             baking: "Precalienta tu horno y hornea según las instrucciones de la receta para temperatura y vapor."
         }
     },
