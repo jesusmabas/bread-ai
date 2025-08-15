@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { SavedRecipe } from '../../types';
 import { useLocalization } from '../../contexts/LocalizationContext';
-import { UploadIcon, DatabaseIcon, CopyIcon, ShareIcon, DownloadIcon, TrashIcon } from '../Icons';
+import { Icon } from '../Icon';
 import Tooltip from '../Tooltip';
 
 interface ViewRecipesModalProps {
@@ -39,7 +38,7 @@ export const ViewRecipesModal: React.FC<ViewRecipesModalProps> = ({
                     <h2 className="text-xl font-bold text-amber-900">{t('header.myRecipes')}</h2>
                     <div className="flex gap-2">
                         <label htmlFor="import-recipe" className="cursor-pointer flex items-center gap-2 px-3 py-2 text-sm font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700">
-                           <UploadIcon size={16}/> {t('common.import')}
+                           <Icon icon="fa-solid fa-upload" /> {t('common.import')}
                         </label>
                         <input type="file" id="import-recipe" accept=".json" onChange={handleImportRecipes} className="hidden"/>
                         <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-3xl leading-none">&times;</button>
@@ -55,11 +54,11 @@ export const ViewRecipesModal: React.FC<ViewRecipesModalProps> = ({
                                     <p className="text-xs text-gray-400 mt-2">{t('recipes.savedOn', { date: new Date(recipe.createdAt).toLocaleDateString() })}</p>
                                 </div>
                                 <div className="flex items-center gap-2 flex-shrink-0">
-                                    <Tooltip text={t('common.load')}><button onClick={() => handleLoadRecipe(recipe)} className="p-2 hover:bg-amber-100 rounded-md"><DatabaseIcon size={18} className="text-amber-700"/></button></Tooltip>
-                                    <Tooltip text={t('common.clone')}><button onClick={() => handleCloneRecipe(recipe)} className="p-2 hover:bg-blue-100 rounded-md"><CopyIcon size={18} className="text-blue-700"/></button></Tooltip>
-                                    <Tooltip text={t('common.share')}><button onClick={() => handleShareRecipe(recipe)} className="p-2 hover:bg-purple-100 rounded-md"><ShareIcon size={18} className="text-purple-700"/></button></Tooltip>
-                                    <Tooltip text={t('common.download')}><button onClick={() => handleExportRecipe(recipe)} className="p-2 hover:bg-green-100 rounded-md"><DownloadIcon size={18} className="text-green-700"/></button></Tooltip>
-                                    <Tooltip text={t('common.delete')}><button onClick={() => handleDeleteRecipe(recipe.id)} className="p-2 hover:bg-red-100 rounded-md"><TrashIcon size={18} className="text-red-700"/></button></Tooltip>
+                                    <Tooltip text={t('common.load')}><button onClick={() => handleLoadRecipe(recipe)} className="p-2 hover:bg-amber-100 rounded-md"><Icon icon="fa-solid fa-database" className="text-amber-700 text-lg"/></button></Tooltip>
+                                    <Tooltip text={t('common.clone')}><button onClick={() => handleCloneRecipe(recipe)} className="p-2 hover:bg-blue-100 rounded-md"><Icon icon="fa-solid fa-copy" className="text-blue-700 text-lg"/></button></Tooltip>
+                                    <Tooltip text={t('common.share')}><button onClick={() => handleShareRecipe(recipe)} className="p-2 hover:bg-purple-100 rounded-md"><Icon icon="fa-solid fa-share-from-square" className="text-purple-700 text-lg"/></button></Tooltip>
+                                    <Tooltip text={t('common.download')}><button onClick={() => handleExportRecipe(recipe)} className="p-2 hover:bg-green-100 rounded-md"><Icon icon="fa-solid fa-download" className="text-green-700 text-lg"/></button></Tooltip>
+                                    <Tooltip text={t('common.delete')}><button onClick={() => handleDeleteRecipe(recipe.id)} className="p-2 hover:bg-red-100 rounded-md"><Icon icon="fa-solid fa-trash" className="text-red-700 text-lg"/></button></Tooltip>
                                 </div>
                             </div>
                         </div>

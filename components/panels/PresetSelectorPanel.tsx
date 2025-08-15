@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { BakingStyle, Preset } from '../../types';
 import { PRESETS } from '../../constants';
@@ -25,7 +23,7 @@ const PresetButton: React.FC<{
     return (
         <Tooltip text={description}>
             <button onClick={() => handlePresetSelect(presetKey)} className={`h-24 w-full flex flex-col items-center justify-center p-2 text-center rounded-lg border-2 transition-all duration-200 ${isActive ? 'bg-amber-100 border-amber-500 shadow-md' : 'bg-white hover:bg-amber-50 hover:border-amber-300 border-gray-200'}`}>
-                <preset.icon className={`mx-auto h-7 w-7 mb-1.5 ${isActive ? 'text-amber-600' : 'text-gray-500'}`} />
+                <preset.icon className={`mx-auto text-2xl mb-1.5 ${isActive ? 'text-amber-600' : 'text-gray-500'}`} />
                 <span className={`text-xs font-semibold ${isActive ? 'text-amber-900' : 'text-gray-700'}`}>{name}</span>
             </button>
         </Tooltip>

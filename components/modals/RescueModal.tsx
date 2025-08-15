@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { BakingParameters } from '../../types';
 import { useLocalization } from '../../contexts/LocalizationContext';
-import { AlertTriangleIcon, SparklesIcon, LightbulbIcon, ChevronRightIcon } from '../Icons';
+import { Icon } from '../Icon';
 import { getRescueAdvice } from '../../services/geminiService';
 
 interface RescueModalProps {
@@ -51,7 +50,7 @@ export const RescueModal: React.FC<RescueModalProps> = ({ isOpen, onClose, param
             <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg" onClick={e => e.stopPropagation()}>
                 <div className="flex justify-between items-start mb-4">
                     <div>
-                        <h2 className="text-xl font-bold text-amber-900 flex items-center"><AlertTriangleIcon className="mr-2 text-red-500" />{t('rescueModal.title')}</h2>
+                        <h2 className="text-xl font-bold text-amber-900 flex items-center"><Icon icon="fa-solid fa-triangle-exclamation" className="mr-2 text-red-500" />{t('rescueModal.title')}</h2>
                         <p className="text-sm text-gray-500 mt-1">{t('rescueModal.subtitle')}</p>
                     </div>
                     <button onClick={handleClose} className="text-gray-400 hover:text-gray-600 text-3xl leading-none">&times;</button>
@@ -70,7 +69,7 @@ export const RescueModal: React.FC<RescueModalProps> = ({ isOpen, onClose, param
                         />
                     </div>
                      <button onClick={handleGetAdvice} disabled={isLoading} className="w-full flex items-center justify-center gap-2 p-3 font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:bg-red-400">
-                        {isLoading ? <><SparklesIcon className="animate-pulse" size={20}/>{t('rescueModal.button.loading')}</> : <><LightbulbIcon size={20}/>{t('rescueModal.button.default')}</>}
+                        {isLoading ? <><Icon icon="fa-solid fa-wand-magic-sparkles" className="animate-pulse" />{t('rescueModal.button.loading')}</> : <><Icon icon="fa-solid fa-lightbulb" />{t('rescueModal.button.default')}</>}
                     </button>
                 </div>
 
@@ -82,7 +81,7 @@ export const RescueModal: React.FC<RescueModalProps> = ({ isOpen, onClose, param
                         <ul className="space-y-3">
                             {advice.map((tip, index) => (
                                 <li key={index} className="flex items-start p-3 bg-amber-50 rounded-lg">
-                                    <ChevronRightIcon className="text-amber-500 mt-1 mr-2 flex-shrink-0"/>
+                                    <Icon icon="fa-solid fa-chevron-right" className="text-amber-500 mt-1 mr-2 flex-shrink-0"/>
                                     <span className="text-gray-800">{tip}</span>
                                 </li>
                             ))}

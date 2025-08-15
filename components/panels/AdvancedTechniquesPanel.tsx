@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { BakingParameters, Preferment, ColdFermentation, UnitSystem, PrefermentType } from '../../types';
 import { PREFERMENT_TYPE_OPTIONS } from '../../constants';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { TranslationKey } from '../../i18n/locales';
 import InputSlider from '../InputSlider';
-import { SparklesIcon } from '../Icons';
+import { Icon } from '../Icon';
 
 interface AdvancedTechniquesPanelProps {
     params: BakingParameters;
@@ -19,7 +18,7 @@ export const AdvancedTechniquesPanel: React.FC<AdvancedTechniquesPanelProps> = (
 
     return (
         <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-xl font-bold text-amber-900 mb-4 flex items-center gap-2"><SparklesIcon className="text-amber-500"/>{t('advanced.title')}</h2>
+            <h2 className="text-xl font-bold text-amber-900 mb-4 flex items-center gap-2"><Icon icon="fa-solid fa-wand-magic-sparkles" className="text-amber-500"/>{t('advanced.title')}</h2>
             <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <label htmlFor="preferment-enabled" className="font-medium text-gray-700">{t('advanced.preferment.label')}</label>

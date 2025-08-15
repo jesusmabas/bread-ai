@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { GuidedChoices, GuidedCrumb, GuidedCrust, GuidedLeavening } from '../../types';
 import { GUIDED_CRUMB_OPTIONS, GUIDED_CRUST_OPTIONS, GUIDED_LEAVENING_OPTIONS } from '../../constants';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { TranslationKey } from '../../i18n/locales';
-import { RulerIcon } from '../Icons';
+import { Icon } from '../Icon';
 
 interface GuidedSetupPanelProps {
     guidedChoices: GuidedChoices;
@@ -16,7 +15,7 @@ export const GuidedSetupPanel: React.FC<GuidedSetupPanelProps> = ({ guidedChoice
     
     return (
         <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-xl font-bold text-amber-900 mb-4 flex items-center"><RulerIcon className="mr-2 text-amber-600"/>{t('guided.title')}</h2>
+            <h2 className="text-xl font-bold text-amber-900 mb-4 flex items-center"><Icon icon="fa-solid fa-ruler-combined" className="mr-2 text-amber-600"/>{t('guided.title')}</h2>
             <div className="space-y-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">{t('guided.crumb.label')}</label>

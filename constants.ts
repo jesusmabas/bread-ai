@@ -1,5 +1,11 @@
+import React from 'react';
 import { FlourType, YeastType, StarterActivity, BakingStyle, Preset, GuidedCrumb, GuidedCrust, GuidedLeavening, BakingParameters, OvenProfile, PrefermentType } from './types';
-import { LoafIcon, BaguetteIcon, CiabattaIcon, WheatIcon, FocacciaIcon, PizzaIcon } from './components/Icons';
+import { Icon } from './components/Icon';
+
+const BreadSliceIcon: React.FC<{className?: string}> = (props) => React.createElement(Icon, { icon: "fa-solid fa-bread-slice", ...props });
+const WheatIcon: React.FC<{className?: string}> = (props) => React.createElement(Icon, { icon: "fa-solid fa-wheat-awn", ...props });
+const PizzaIcon: React.FC<{className?: string}> = (props) => React.createElement(Icon, { icon: "fa-solid fa-pizza-slice", ...props });
+
 
 export const FLOUR_OPTIONS = {
   [FlourType.HIGH_GLUTEN]: { name: 'High-Gluten (13-14% protein)', description: 'Ideal for bagels, NY-style pizza, and long fermentations.' },
@@ -64,7 +70,7 @@ export const OVEN_PROFILE_OPTIONS: Record<OvenProfile, { name: string; descripti
 export const PRESETS: Record<BakingStyle, Preset> = {
     [BakingStyle.COUNTRY_LOAF]: {
         name: 'Country Loaf',
-        icon: LoafIcon,
+        icon: BreadSliceIcon,
         description: 'Classic sourdough loaf with an open crumb and crispy crust.',
         flourType: FlourType.BREAD,
         hydration: 75,
@@ -80,7 +86,7 @@ export const PRESETS: Record<BakingStyle, Preset> = {
     },
     [BakingStyle.BAGUETTE]: {
         name: 'Baguette',
-        icon: BaguetteIcon,
+        icon: BreadSliceIcon,
         description: 'A lean, crispy French classic. Requires gentle handling.',
         flourType: FlourType.BREAD,
         hydration: 68,
@@ -95,7 +101,7 @@ export const PRESETS: Record<BakingStyle, Preset> = {
     },
     [BakingStyle.CIABATTA]: {
         name: 'Ciabatta',
-        icon: CiabattaIcon,
+        icon: BreadSliceIcon,
         description: 'A very high hydration Italian bread with large, irregular holes.',
         flourType: FlourType.BREAD,
         hydration: 85,
@@ -126,7 +132,7 @@ export const PRESETS: Record<BakingStyle, Preset> = {
     },
     [BakingStyle.FOCACCIA]: {
         name: 'Focaccia',
-        icon: FocacciaIcon,
+        icon: BreadSliceIcon,
         description: 'Pillowy, dimpled Italian flatbread, rich with olive oil.',
         flourType: FlourType.ALL_PURPOSE,
         hydration: 80,
@@ -156,7 +162,7 @@ export const PRESETS: Record<BakingStyle, Preset> = {
     },
     [BakingStyle.ROMAN_PIZZA]: {
         name: 'Roman Pizza',
-        icon: FocacciaIcon,
+        icon: PizzaIcon,
         description: 'Crispy, airy "pizza in pala". High hydration and long, cold fermentation.',
         flourType: FlourType.BREAD,
         hydration: 80,
@@ -187,7 +193,7 @@ export const PRESETS: Record<BakingStyle, Preset> = {
     },
     [BakingStyle.PAN_PIZZA]: {
         name: 'Pan Pizza',
-        icon: FocacciaIcon,
+        icon: PizzaIcon,
         description: 'Thick, chewy, and crispy with a fried-like bottom crust. "Al taglio" style.',
         flourType: FlourType.BREAD,
         hydration: 70,

@@ -1,12 +1,10 @@
-
-
 import React from 'react';
 import { AIAnalysisResult, BakingParameters, UnitSystem } from '../../types';
 import { TranslationKey } from '../../i18n/locales';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { parseDurationToHours } from '../../utils';
 import LoadingState from '../LoadingState';
-import { ClockIcon, SparklesIcon, LightbulbIcon, ChevronRightIcon, ChartLineIcon, HelpCircleIcon, PrintIcon, SnowflakeIcon } from '../Icons';
+import { Icon } from '../Icon';
 import { BakingSchedule } from '../timeline/BakingSchedule';
 import { LiveTimeline } from '../timeline/LiveTimeline';
 import { PrintableTimeline } from '../timeline/PrintableTimeline';
@@ -50,29 +48,29 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ isLoading, error, re
             />
             <div className="flex justify-between items-start">
                 <div>
-                    <h2 className="text-2xl font-bold text-amber-900 flex items-center print-title"><SparklesIcon className="mr-2 text-amber-500 no-print"/>{title}</h2>
+                    <h2 className="text-2xl font-bold text-amber-900 flex items-center print-title"><Icon icon="fa-solid fa-wand-magic-sparkles" className="mr-2 text-amber-500 no-print"/>{title}</h2>
                     <p className="mt-2 text-gray-700">{result.overview}</p>
                 </div>
                  <button onClick={() => window.print()} className="p-3 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors no-print" aria-label={t('common.print')}>
-                    <PrintIcon size={24} className="text-gray-700"/>
+                    <Icon icon="fa-solid fa-print" className="text-gray-700 text-2xl"/>
                  </button>
             </div>
             
             <div className={`grid grid-cols-1 md:grid-cols-${hasColdProof ? '3' : '2'} gap-4`}>
                 <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                  <h3 className="font-semibold text-amber-800 flex items-center"><ClockIcon className="mr-2" size={20}/>{t('results.bulkFermentation')}</h3>
+                  <h3 className="font-semibold text-amber-800 flex items-center"><Icon icon="fa-solid fa-clock" className="mr-2 text-xl"/>{t('results.bulkFermentation')}</h3>
                   <p className="text-2xl font-bold text-amber-900 mt-1">{result.bulkFermentation.duration}</p>
                   <p className="text-sm text-gray-600 mt-1">{result.bulkFermentation.notes}</p>
                 </div>
                 {hasColdProof && (
                     <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                      <h3 className="font-semibold text-blue-800 flex items-center"><SnowflakeIcon className="mr-2" size={20}/>{t('results.coldProof' as TranslationKey)}</h3>
+                      <h3 className="font-semibold text-blue-800 flex items-center"><Icon icon="fa-solid fa-snowflake" className="mr-2 text-xl"/>{t('results.coldProof' as TranslationKey)}</h3>
                       <p className="text-2xl font-bold text-blue-900 mt-1">{result.coldProof!.duration}</p>
                       <p className="text-sm text-gray-600 mt-1">{result.coldProof!.notes}</p>
                     </div>
                 )}
                 <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                    <h3 className="font-semibold text-amber-800 flex items-center"><ClockIcon className="mr-2" size={20}/>{t('results.finalProof')}</h3>
+                    <h3 className="font-semibold text-amber-800 flex items-center"><Icon icon="fa-solid fa-clock" className="mr-2 text-xl"/>{t('results.finalProof')}</h3>
                     <p className="text-2xl font-bold text-amber-900 mt-1">{result.finalProof.duration}</p>
                     <p className="text-sm text-gray-600 mt-1">{result.finalProof.notes}</p>
                 </div>
@@ -80,7 +78,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ isLoading, error, re
 
             {calculatorMode === 'ai' && result.coldFermentation?.suitability && (
                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 no-print">
-                    <h3 className="font-semibold text-blue-800 flex items-center"><SnowflakeIcon className="mr-2" size={20}/>{t('results.coldFermentation.title')}</h3>
+                    <h3 className="font-semibold text-blue-800 flex items-center"><Icon icon="fa-solid fa-snowflake" className="mr-2 text-xl"/>{t('results.coldFermentation.title')}</h3>
                     <p className="text-sm text-blue-700 mt-2">{result.coldFermentation.description}</p>
                     <div className="mt-3 pt-3 border-t border-blue-200/50">
                         <p className="text-sm text-gray-800"><strong className="font-semibold">{t('results.coldFermentation.instructions')}:</strong> {result.coldFermentation.timelineAdjustments}</p>
@@ -101,7 +99,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ isLoading, error, re
                       onClick={() => setRescueModalOpen(true)} 
                       className="w-full flex items-center justify-center gap-3 p-3 text-base font-semibold text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors"
                   >
-                      <HelpCircleIcon size={20} />
+                      <Icon icon="fa-solid fa-circle-question" className="text-xl" />
                       {t('timeline.getHelp')}
                   </button>
               </div>
@@ -110,14 +108,14 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ isLoading, error, re
             
             {canShowChart && !isTimelineSchedulable && (
               <div className="pt-4 no-print">
-                <h3 className="text-xl font-semibold text-amber-900 mb-4 flex items-center"><ChartLineIcon className="mr-2 text-amber-600"/>{t('results.fermentationCurve')}</h3>
+                <h3 className="text-xl font-semibold text-amber-900 mb-4 flex items-center"><Icon icon="fa-solid fa-chart-line" className="mr-2 text-amber-600"/>{t('results.fermentationCurve')}</h3>
                 <FermentationCurveChart bulkHours={bulkHours} proofHours={proofHours} coldProofHours={coldProofHours} />
               </div>
             )}
             
              <div>
-                <h3 className="text-xl font-semibold text-amber-900 mb-3 flex items-center print-section-title"><LightbulbIcon className="mr-2 text-yellow-500 no-print"/>{t('results.proTips')}</h3>
-                <ul className="space-y-2">{result.proTips.map((tip, index) => (<li key={index} className="flex items-start"><ChevronRightIcon className="text-amber-500 mt-1 mr-2 flex-shrink-0 no-print"/><span className="text-gray-700 print-checklist-item">{tip}</span></li>))}</ul>
+                <h3 className="text-xl font-semibold text-amber-900 mb-3 flex items-center print-section-title"><Icon icon="fa-solid fa-lightbulb" className="mr-2 text-yellow-500 no-print"/>{t('results.proTips')}</h3>
+                <ul className="space-y-2">{result.proTips.map((tip, index) => (<li key={index} className="flex items-start"><Icon icon="fa-solid fa-chevron-right" className="text-amber-500 mt-1 mr-2 flex-shrink-0 no-print"/><span className="text-gray-700 print-checklist-item">{tip}</span></li>))}</ul>
             </div>
         </div>
     );

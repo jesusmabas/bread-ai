@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { BakingParameters, YeastType, UnitSystem } from '../../types';
 import { FLOUR_OPTIONS, YEAST_OPTIONS, STARTER_ACTIVITY_OPTIONS, OVEN_PROFILE_OPTIONS } from '../../constants';
@@ -8,7 +6,7 @@ import { TranslationKey } from '../../i18n/locales';
 import { gramsToOunces } from '../../utils';
 import InputSlider from '../InputSlider';
 import Tooltip from '../Tooltip';
-import { ScaleIcon, InfoIcon, CalculatorIcon, AlertTriangleIcon, SparklesIcon } from '../Icons';
+import { Icon } from '../Icon';
 import { CalculatorMode } from '../../hooks/useBakingSetup';
 
 interface DoughParametersPanelProps {
@@ -35,11 +33,11 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
 
     return (
         <div className="bg-white rounded-lg shadow-lg p-6 h-fit">
-            <div className="flex justify-between items-center mb-6"><h2 className="text-xl font-bold text-amber-900 flex items-center"><ScaleIcon className="mr-2"/>{t('params.title')}</h2><div className="flex items-center gap-2"><span className={`text-sm font-medium ${mode === 'simple' ? 'text-amber-700' : 'text-gray-400'}`}>{t('params.mode.simple')}</span><button onClick={()=>setMode(m => m === 'simple' ? 'pro' : 'simple')} className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${mode === 'pro' ? 'bg-amber-600' : 'bg-gray-300'}`}><span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${mode === 'pro' ? 'translate-x-6' : 'translate-x-1'}`}/></button><span className={`text-sm font-medium ${mode === 'pro' ? 'text-amber-700' : 'text-gray-400'}`}>{t('params.mode.pro')}</span></div></div>
+            <div className="flex justify-between items-center mb-6"><h2 className="text-xl font-bold text-amber-900 flex items-center"><Icon icon="fa-solid fa-scale-balanced" className="mr-2"/>{t('params.title')}</h2><div className="flex items-center gap-2"><span className={`text-sm font-medium ${mode === 'simple' ? 'text-amber-700' : 'text-gray-400'}`}>{t('params.mode.simple')}</span><button onClick={()=>setMode(m => m === 'simple' ? 'pro' : 'simple')} className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${mode === 'pro' ? 'bg-amber-600' : 'bg-gray-300'}`}><span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${mode === 'pro' ? 'translate-x-6' : 'translate-x-1'}`}/></button><span className={`text-sm font-medium ${mode === 'pro' ? 'text-amber-700' : 'text-gray-400'}`}>{t('params.mode.pro')}</span></div></div>
             <div className="space-y-5">
                 <div><label className="block text-sm font-medium text-gray-700 mb-2">{t('params.flourType')}</label><select value={params.flourType} onChange={(e) => handleSelectChange('flourType', e)} className="w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500">{Object.keys(FLOUR_OPTIONS).map((key) => (<option key={key} value={key}>{t(`flourTypes.${key}` as TranslationKey)}</option>))}</select></div>
                 <div><label className="block text-sm font-medium text-gray-700 mb-2">{t('params.leaveningAgent')}</label><select value={params.yeastType} onChange={(e) => handleSelectChange('yeastType', e)} className="w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500">{Object.keys(YEAST_OPTIONS).map((key) => (<option key={key} value={key}>{t(`yeastTypes.${key}` as TranslationKey)}</option>))}</select></div>
-                {params.yeastType === YeastType.SOURDOUGH && (<div className="pl-4 border-l-4 border-amber-200 animate-fade-in"><Tooltip text={t('tooltips.starterActivity')}><label className="flex items-center text-sm font-medium text-gray-700 mb-2">{t('params.starterActivity')} <InfoIcon className="ml-1.5 text-gray-400"/></label></Tooltip><select value={params.sourdoughStarterActivity} onChange={(e) => handleSelectChange('sourdoughStarterActivity', e)} className="w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500">{Object.keys(STARTER_ACTIVITY_OPTIONS).map((key) => (<option key={key} value={key}>{t(`starterActivities.${key}` as TranslationKey)}</option>))}</select></div>)}
+                {params.yeastType === YeastType.SOURDOUGH && (<div className="pl-4 border-l-4 border-amber-200 animate-fade-in"><Tooltip text={t('tooltips.starterActivity')}><label className="flex items-center text-sm font-medium text-gray-700 mb-2">{t('params.starterActivity')} <Icon icon="fa-solid fa-circle-info" className="ml-1.5 text-gray-400"/></label></Tooltip><select value={params.sourdoughStarterActivity} onChange={(e) => handleSelectChange('sourdoughStarterActivity', e)} className="w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500">{Object.keys(STARTER_ACTIVITY_OPTIONS).map((key) => (<option key={key} value={key}>{t(`starterActivities.${key}` as TranslationKey)}</option>))}</select></div>)}
                 <InputSlider label={t('params.hydration')} value={params.hydration} onChange={(e) => handleSliderChange('hydration', e)} min={50} max={100} step={1} unit="%" unitSystem={unitSystem}/>
                 <InputSlider label={t('params.salt')} value={params.salt} onChange={(e) => handleSliderChange('salt', e)} min={0} max={5} step={0.1} unit="%" unitSystem={unitSystem}/>
                 <InputSlider label={t('params.ambientTemp')} value={params.temperature} onChange={(e) => handleSliderChange('temperature', e)} min={18} max={32} step={1} unit="°C" unitSystem={unitSystem} />
@@ -57,13 +55,13 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
                         </div>
                         <div className="p-4 bg-stone-50 rounded-lg border border-stone-200 space-y-4">
                             <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-                                <Tooltip text={t('tooltips.ddt')}><span className="flex items-center">{t('params.ddt.title')} <InfoIcon className="ml-1.5 text-gray-400" /></span></Tooltip>
+                                <Tooltip text={t('tooltips.ddt')}><span className="flex items-center">{t('params.ddt.title')} <Icon icon="fa-solid fa-circle-info" className="ml-1.5 text-gray-400" /></span></Tooltip>
                             </h3>
                              <button onClick={() => setDDTModalOpen(true)} className="w-full flex items-center justify-center gap-2 p-2 text-sm font-semibold text-amber-800 bg-amber-100 rounded-lg hover:bg-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-200">
-                                <CalculatorIcon size={16}/> {t('params.ddt.button')}
+                                <Icon icon="fa-solid fa-calculator" /> {t('params.ddt.button')}
                             </button>
                             <div className="pt-2">
-                                 <h3 className="font-semibold text-gray-700 mb-3"><Tooltip text={t('tooltips.q10')}><span className="flex items-center">{t('params.advancedModel.title')} <InfoIcon className="ml-1.5 text-gray-400"/></span></Tooltip></h3>
+                                 <h3 className="font-semibold text-gray-700 mb-3"><Tooltip text={t('tooltips.q10')}><span className="flex items-center">{t('params.advancedModel.title')} <Icon icon="fa-solid fa-circle-info" className="ml-1.5 text-gray-400"/></span></Tooltip></h3>
                                 <InputSlider label={t('params.advancedModel.q10')} value={params.q10} onChange={e => handleParamChange('q10', parseFloat(e.target.value))} min={1.5} max={3} step={0.1} unit="" unitSystem={unitSystem}/>
                                 <InputSlider label={t('params.advancedModel.tRef')} value={params.t_ref} onChange={e => handleParamChange('t_ref', parseFloat(e.target.value))} min={18} max={28} step={1} unit="°C" unitSystem={unitSystem}/>
                             </div>
@@ -129,7 +127,7 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
                             <div className="p-3 bg-yellow-50 border border-yellow-300 rounded-lg space-y-2">
                                 {doughInsights.warnings.map((warning, index) => (
                                     <div key={index} className="flex items-start text-sm text-yellow-800">
-                                        <AlertTriangleIcon size={20} className="mr-2 mt-0.5 flex-shrink-0 text-yellow-500" />
+                                        <Icon icon="fa-solid fa-triangle-exclamation" className="mr-2 mt-0.5 flex-shrink-0 text-yellow-500 text-xl" />
                                         <span>{warning}</span>
                                     </div>
                                 ))}

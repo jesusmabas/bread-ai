@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { UnitSystem } from '../../types';
-import { WheatIcon, DatabaseIcon, GlobeIcon, MenuIcon, XIcon } from '../Icons';
+import { Icon } from '../Icon';
 
 const LanguageSelector: React.FC<{ language: string; onChange: (lang: string) => void; }> = ({ language, onChange }) => (
     <div className="relative">
@@ -14,7 +13,7 @@ const LanguageSelector: React.FC<{ language: string; onChange: (lang: string) =>
         <option value="en">English</option>
         <option value="es">Español</option>
       </select>
-      <GlobeIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+      <Icon icon="fa-solid fa-globe" className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
     </div>
 );
 
@@ -47,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({ onMyRecipesClick, language, onLa
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center flex-shrink-0">
-                        <WheatIcon className="h-8 w-8 text-amber-600 mr-2 sm:mr-3" />
+                        <Icon icon="fa-solid fa-wheat-awn" className="text-3xl text-amber-600 mr-2 sm:mr-3" />
                         <div>
                             <h1 className="text-xl sm:text-2xl font-bold text-amber-900 truncate">{t('header.title')}</h1>
                             <p className="text-sm text-gray-600 hidden sm:block">{t('header.subtitle')}</p>
@@ -57,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({ onMyRecipesClick, language, onLa
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-4">
                         <button onClick={onMyRecipesClick} className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-amber-800 bg-amber-100 rounded-lg hover:bg-amber-200">
-                            <DatabaseIcon size={16} /> {t('header.myRecipes')}
+                            <Icon icon="fa-solid fa-database" /> {t('header.myRecipes')}
                         </button>
                         <UnitToggle unitSystem={unitSystem} onChange={onUnitSystemChange} />
                         <LanguageSelector language={language} onChange={onLanguageChange} />
@@ -74,9 +73,9 @@ export const Header: React.FC<HeaderProps> = ({ onMyRecipesClick, language, onLa
                         >
                             <span className="sr-only">Open main menu</span>
                             {isMobileMenuOpen ? (
-                                <XIcon className="block h-6 w-6" aria-hidden="true" />
+                                <Icon icon="fa-solid fa-xmark" className="block text-2xl" aria-hidden="true" />
                             ) : (
-                                <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                                <Icon icon="fa-solid fa-bars" className="block text-2xl" aria-hidden="true" />
                             )}
                         </button>
                     </div>
@@ -91,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({ onMyRecipesClick, language, onLa
                             onClick={() => { onMyRecipesClick(); setIsMobileMenuOpen(false); }}
                             className="w-full text-left flex items-center gap-3 px-3 py-2 text-base font-semibold text-amber-800 bg-amber-100 rounded-lg hover:bg-amber-200"
                         >
-                            <DatabaseIcon size={20} />
+                            <Icon icon="fa-solid fa-database" className="text-xl" />
                             {t('header.myRecipes')}
                         </button>
                         <div className="flex justify-between items-center py-2 px-3 border-t border-gray-200/60">

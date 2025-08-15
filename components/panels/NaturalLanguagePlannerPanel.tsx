@@ -1,8 +1,6 @@
-
-
 import React from 'react';
 import { useLocalization } from '../../contexts/LocalizationContext';
-import { SparklesIcon } from '../Icons';
+import { Icon } from '../Icon';
 
 interface NaturalLanguagePlannerPanelProps {
     naturalQuery: string;
@@ -21,12 +19,12 @@ export const NaturalLanguagePlannerPanel: React.FC<NaturalLanguagePlannerPanelPr
         <div className="bg-white rounded-lg shadow-lg p-6 relative">
              {disabled && (
                 <div className="absolute inset-0 bg-white/70 backdrop-blur-sm flex flex-col items-center justify-center z-10 rounded-lg text-center">
-                     <SparklesIcon className="text-amber-500 h-8 w-8"/>
+                     <Icon icon="fa-solid fa-wand-magic-sparkles" className="text-amber-500 text-3xl"/>
                      <p className="font-semibold text-amber-900 mt-2">{t('planner.proFeature.title')}</p>
                      <p className="text-xs text-gray-600 mt-1 px-4">{t('planner.proFeature.description')}</p>
                 </div>
             )}
-            <h2 className="text-xl font-bold text-amber-900 mb-4 flex items-center"><SparklesIcon className="mr-2 text-amber-600"/>{t('planner.title')}</h2>
+            <h2 className="text-xl font-bold text-amber-900 mb-4 flex items-center"><Icon icon="fa-solid fa-wand-magic-sparkles" className="mr-2 text-amber-600"/>{t('planner.title')}</h2>
             <div className="space-y-3">
                 <textarea
                     rows={3}

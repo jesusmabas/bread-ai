@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SparklesIcon } from './Icons';
+import { Icon } from './Icon';
 import { useLocalization } from '../contexts/LocalizationContext';
 
 const LoadingState: React.FC = () => {
@@ -21,7 +21,7 @@ const LoadingState: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center bg-white rounded-lg shadow-lg h-full">
-      <SparklesIcon className="h-16 w-16 text-amber-500 animate-pulse" />
+      <Icon icon="fa-solid fa-wand-magic-sparkles" className="text-6xl text-amber-500 animate-pulse" />
       <h3 className="mt-4 text-xl font-semibold text-amber-900">{t('loading.title')}</h3>
       <p className="mt-2 text-gray-600 transition-opacity duration-500">{message}</p>
       <div className="mt-6 w-full bg-amber-100 rounded-full h-2.5">
