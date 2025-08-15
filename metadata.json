@@ -1,0 +1,5 @@
+{
+  "name": "BREAD AI",
+  "description": "A bread fermentation calculator powered by a deterministic formula. Input your recipe parameters to get a detailed baking schedule, step-by-step instructions, and expert tips tailored to your dough.",
+  "requestFramePermissions": []
+}
