@@ -36,7 +36,7 @@ export const useRecipeStorage = ({
 
     useEffect(() => {
         try {
-            const storedRecipes = localStorage.getItem('bread_ai_recipes');
+            const storedRecipes = localStorage.getItem('panaderia_recipes');
             if (storedRecipes) {
                 setSavedRecipes(JSON.parse(storedRecipes));
             }
@@ -47,7 +47,7 @@ export const useRecipeStorage = ({
 
     useEffect(() => {
         try {
-            localStorage.setItem('bread_ai_recipes', JSON.stringify(savedRecipes));
+            localStorage.setItem('panaderia_recipes', JSON.stringify(savedRecipes));
         } catch (e) {
             console.error("Failed to save recipes to localStorage", e);
         }

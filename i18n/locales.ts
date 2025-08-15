@@ -2,7 +2,7 @@
 
 export const en = {
     header: {
-        title: "Bread AI",
+        title: "PanaderIA",
         subtitle: "Your intelligent baking assistant.",
         myRecipes: "My recipes"
     },
@@ -357,7 +357,7 @@ export const en = {
 
 export const es: typeof en = {
     header: {
-        title: "Pan AI",
+        title: "PanaderIA",
         subtitle: "Tu asistente de panadería inteligente.",
         myRecipes: "Mis recetas"
     },

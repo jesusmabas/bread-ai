@@ -1,5 +1,5 @@
 {
-  "name": "BREAD AI",
-  "description": "A bread fermentation calculator powered by a deterministic formula. Input your recipe parameters to get a detailed baking schedule, step-by-step instructions, and expert tips tailored to your dough.",
+  "name": "PanaderIA",
+  "description": "An intelligent baking assistant for bread and pizza. PanaderIA combines a deterministic formula with an AI baker to generate detailed schedules, instructions, and expert tips for perfect dough every time.",
   "requestFramePermissions": []
 }

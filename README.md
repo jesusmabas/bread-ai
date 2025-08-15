@@ -1,6 +1,6 @@
-# Bread AI - Your Intelligent Baking Assistant
+# PanaderIA - Your Intelligent Baking Assistant
 
-Welcome to Bread AI, a sophisticated web application designed to take the guesswork out of bread and pizza making. Whether you're a novice baker or a seasoned professional, Bread AI provides the tools to create perfect dough every time. It combines a powerful deterministic fermentation formula with a cutting-edge AI baker powered by the Google Gemini API to give you unparalleled control over your baking process.
+Welcome to PanaderIA, a sophisticated web application designed to take the guesswork out of bread and pizza making. Whether you're a novice baker or a seasoned professional, PanaderIA provides the tools to create perfect dough every time. It combines a powerful deterministic fermentation formula with a cutting-edge AI baker powered by the Google Gemini API to give you unparalleled control over your baking process.
 
 ## ✨ Key Features
 
