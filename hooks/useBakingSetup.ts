@@ -50,6 +50,7 @@ const initialParams: BakingParameters = {
       enabled: false,
       startTime: '09:00',
       endTime: '17:00',
+      days: [0, 1, 2, 3, 4, 5, 6],
   },
   bakeTimeTarget: '',
   ...initialBakingParams,

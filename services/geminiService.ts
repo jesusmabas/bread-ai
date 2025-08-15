@@ -121,6 +121,22 @@ const coldFermentationSchema = {
     required: ["enabled", "durationHours", "temperature"]
 };
 
+const workScheduleSchema = {
+    type: Type.OBJECT,
+    description: "The user's active work schedule for baking.",
+    properties: {
+        enabled: { type: Type.BOOLEAN },
+        startTime: { type: Type.STRING, description: "Start time in HH:mm format, e.g., '09:00'." },
+        endTime: { type: Type.STRING, description: "End time in HH:mm format, e.g., '17:00'." },
+        days: { 
+            type: Type.ARRAY, 
+            description: "Days of the week user is available. 0: Sun, 1: Mon, ..., 6: Sat. If user says 'weekends', it's [0, 6]. If 'weekdays', it's [1, 2, 3, 4, 5].",
+            items: { type: Type.NUMBER }
+        },
+    },
+    required: ["enabled", "startTime", "endTime", "days"]
+};
+
 const aiPlanSchema = {
     type: Type.OBJECT,
     properties: {
@@ -141,8 +157,9 @@ const aiPlanSchema = {
                 preferment: prefermentSchema,
                 coldFermentation: coldFermentationSchema,
                 bakeTimeTarget: { type: Type.STRING, description: "The user's desired bake time in ISO 8601 format, if mentioned." },
+                workSchedule: workScheduleSchema,
             },
-            required: ["flourType", "hydration", "yeastType", "yeastAmount", "salt", "sugar", "fat", "temperature", "ovenProfile", "preferment", "coldFermentation"]
+            required: ["flourType", "hydration", "yeastType", "yeastAmount", "salt", "sugar", "fat", "temperature", "ovenProfile", "preferment", "coldFermentation", "workSchedule"]
         },
         yieldParameters: {
             type: Type.OBJECT,
@@ -169,9 +186,11 @@ export const getBakingAnalysis = async (params: BakingParameters, metrics: Calcu
 
   const workSchedulePrompt = params.workSchedule.enabled ? `
 **CRITICAL Scheduling Constraint: User's Active Baking Hours**
-- The user is ONLY available for active tasks (mixing, folding, shaping, baking) between ${params.workSchedule.startTime} and ${params.workSchedule.endTime} each day.
-- You MUST schedule all steps that require user interaction within this window.
-- Use long, passive fermentation periods (especially cold fermentation in the refrigerator) to bridge the time outside of this active window. For example, if shaping finishes at the end of the day, schedule a cold proof overnight.
+- The user is ONLY available for active tasks (mixing, folding, shaping, baking) on specific days and times.
+- Available days: ${params.workSchedule.days.map(d => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d]).join(', ') || 'None'}.
+- Available time on those days: between ${params.workSchedule.startTime} and ${params.workSchedule.endTime}.
+- You MUST schedule all steps that require user interaction within these available windows.
+- Use long, passive fermentation periods (especially cold fermentation in the refrigerator) to bridge the time outside of this active window. For example, if shaping finishes at the end of an available day, schedule a cold proof overnight until the next available window.
 ` : '- No work schedule constraint.';
 
   const prompt = `
@@ -240,21 +259,39 @@ Strictly adhere to the provided JSON schema.
 
 export const getAIPlanFromQuery = async (query: string, language: string, precalculatedBakeTime?: string): Promise<AIPlanResult> => {
     const langName = language === 'es' ? 'Spanish' : 'English';
+    const nowISO = new Date().toISOString();
     
     const timePromptSection = precalculatedBakeTime 
     ? `
-**CRITICAL & PRE-CALCULATED BAKE TIME:**
-A precise target bake time has been calculated for you by a deterministic parser. You MUST use this exact time and reflect it in your response. DO NOT attempt to parse the time from the user query yourself.
+**CRITICAL DATE & TIME CALCULATION RULES:**
+- The current date and time is: \`${nowISO}\`.
+- The user's desired bake time has been pre-parsed to: \`${precalculatedBakeTime}\`. This is your TARGET_BAKE_TIME.
 
-- **Pre-calculated Target Bake Time**: \`${precalculatedBakeTime}\`
+**YOUR TASK:**
+1.  Generate the full baking plan based on the user's query. This includes all steps from mixing to baking.
+2.  Calculate the TOTAL_DURATION_HOURS for the entire plan you have generated.
+3.  Calculate the ideal PLAN_START_TIME by subtracting TOTAL_DURATION_HOURS from the TARGET_BAKE_TIME.
+4.  **CRITICAL CHECK:** Compare your calculated PLAN_START_TIME with the current time (\`${nowISO}\`).
+5.  **IF PLAN_START_TIME IS IN THE PAST:** The user's request is not feasible as is. You must create a new, valid plan.
+    -   Set the new plan's start time to the current time (\`${nowISO}\`).
+    -   Add TOTAL_DURATION_HOURS to this new start time to get the new, REALISTIC_BAKE_TIME.
+    -   In the 'overview' field, you MUST explain this adjustment to the user. For example: "The requested bake time is too soon for this recipe, which requires approximately [X] hours. I've created a new plan starting now, which will be ready to bake around [new time]."
+    -   Generate the full timeline with 'startTime' and 'endTime' for each step based on this NEW plan.
+    -   The 'bakeTimeTarget' field in your JSON response MUST be set to the new, REALISTIC_BAKE_TIME in ISO 8601 format.
+6.  **IF PLAN_START_TIME IS IN THE FUTURE:** The user's request is feasible.
+    -   Proceed to generate the full timeline with 'startTime' and 'endTime' working backwards from the TARGET_BAKE_TIME.
+    -   The 'bakeTimeTarget' field in your JSON response MUST be set to the original \`${precalculatedBakeTime}\`.
 
-You MUST set the 'bakeTimeTarget' field in your JSON response to this exact value. Then, you MUST generate the full 'timeline' with calculated 'startTime' and 'endTime' for each step, working backwards from this precise target.
+Failure to follow this logic will result in an impossible schedule for the user. Be precise.
 `
     : `
 **DATE/TIME CALCULATION RULES:**
-If the user specifies a target day or time (e.g., "this Sunday at 8 PM"), you must parse it and calculate the 'bakeTimeTarget'. Today's date is: \`${new Date().toISOString()}\`.
+The current date and time is: \`${nowISO}\`.
+If the user specifies a target day or time (e.g., "this Sunday at 8 PM"), you must parse it and calculate the 'bakeTimeTarget'.
+The calculated 'bakeTimeTarget' MUST be in the future relative to the current time.
 The 'bakeTimeTarget' field must be a valid ISO 8601 string.
-After calculating the 'bakeTimeTarget', you MUST generate the full 'timeline' with calculated 'startTime' and 'endTime' for each step, working backwards from that target. If no time is specified, leave 'bakeTimeTarget' and timeline times empty.
+After calculating the 'bakeTimeTarget', you MUST generate the full 'timeline' with calculated 'startTime' and 'endTime' for each step, working backwards from that target, ensuring the plan's start time is not in the past.
+If no time is specified, leave 'bakeTimeTarget' and timeline times empty.
 `;
 
     const prompt = `
@@ -263,7 +300,7 @@ Analyze the query for constraints (temperature, yield) and desired outcomes ('pu
 Infer missing parameters based on baking science and the user's goals. For example, a "marked cornicione" on a pizza implies a Neapolitan style ('pizza-00' flour, 65-70% hydration, 'baking-steel' profile).
 If "biga" or "poolish" are mentioned, enable and configure the 'preferment' object.
 If "cold proof" or "fridge" are mentioned, enable and configure the 'coldFermentation' object.
-If the user mentions their work schedule or availability (e.g., "I can only bake in the evenings"), you should enable and configure the 'workSchedule' object. Otherwise, leave it disabled.
+If the user mentions their work schedule or availability (e.g., "I can only bake in the evenings on weekdays"), you should enable and configure the 'workSchedule' object. Parse start time, end time, and days of the week. For "weekends", use [0, 6]. For "weekdays", use [1, 2, 3, 4, 5]. If only a time is mentioned, assume all days [0, 1, 2, 3, 4, 5, 6]. Otherwise, leave it disabled.
 
 ${timePromptSection}
 

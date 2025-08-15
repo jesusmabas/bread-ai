@@ -17,6 +17,15 @@ interface AdvancedTechniquesPanelProps {
 
 export const AdvancedTechniquesPanel: React.FC<AdvancedTechniquesPanelProps> = ({ params, handleAdvancedChange, handleWorkScheduleChange, handleParamChange, unitSystem }) => {
     const { t } = useLocalization();
+    const daysOfWeek = t('common.daysShort') as string[];
+
+    const handleDayToggle = (dayIndex: number) => {
+        const currentDays = params.workSchedule.days || [];
+        const newDays = currentDays.includes(dayIndex)
+            ? currentDays.filter(d => d !== dayIndex)
+            : [...currentDays, dayIndex].sort((a, b) => a - b);
+        handleWorkScheduleChange('days', newDays);
+    };
 
     return (
         <div className="bg-white rounded-lg shadow-lg p-6">
@@ -69,6 +78,28 @@ export const AdvancedTechniquesPanel: React.FC<AdvancedTechniquesPanelProps> = (
                                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('advanced.workSchedule.endTime')}</label>
                                    <input type="time" value={params.workSchedule.endTime} onChange={e => handleWorkScheduleChange('endTime', e.target.value)} className="w-full p-2 bg-white border border-gray-300 rounded-md"/>
                                </div>
+                           </div>
+                           <div className="mt-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-2 text-center">{t('advanced.workSchedule.availableDays')}</label>
+                                <div className="flex justify-center gap-1 flex-wrap">
+                                    {daysOfWeek.map((day, index) => {
+                                        const isSelected = params.workSchedule.days.includes(index);
+                                        return (
+                                            <button
+                                                key={index}
+                                                onClick={() => handleDayToggle(index)}
+                                                className={`w-10 h-10 rounded-full text-xs font-bold transition-colors ${
+                                                    isSelected
+                                                        ? 'bg-purple-600 text-white shadow'
+                                                        : 'bg-gray-200 text-gray-600 hover:bg-purple-100'
+                                                }`}
+                                                aria-label={`Toggle ${day}`}
+                                            >
+                                                {day}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
                            </div>
                         </div>
                     )}

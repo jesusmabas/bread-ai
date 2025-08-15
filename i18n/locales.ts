@@ -16,7 +16,8 @@ export const en = {
         import: "Import",
         load: "Load",
         print: "Print",
-        error: "Error"
+        error: "Error",
+        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     },
     planner: {
         title: "Natural language planner",
@@ -96,7 +97,8 @@ export const en = {
             label: "Active Baking Hours",
             description: "Define a window for active tasks like mixing and shaping. The AI will use passive fermentation (especially cold) to bridge time outside this window.",
             startTime: "Start Time",
-            endTime: "End Time"
+            endTime: "End Time",
+            availableDays: "Available Days"
         }
     },
     params: {
@@ -347,7 +349,8 @@ export const es: typeof en = {
         import: "Importar",
         load: "Cargar",
         print: "Imprimir",
-        error: "Error"
+        error: "Error",
+        daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
     },
     planner: {
         title: "Planificador por lenguaje natural",
@@ -427,7 +430,8 @@ export const es: typeof en = {
             label: "Horario de Horneado Activo",
             description: "Define una ventana para tareas activas como mezclar y formar. La IA usará fermentación pasiva (especialmente en frío) para cubrir el tiempo fuera de esta ventana.",
             startTime: "Hora de Inicio",
-            endTime: "Hora de Fin"
+            endTime: "Hora de Fin",
+            availableDays: "Días Disponibles"
         }
     },
     params: {

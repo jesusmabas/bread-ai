@@ -54,6 +54,7 @@ export interface WorkSchedule {
   enabled: boolean;
   startTime: string; // "HH:mm" format
   endTime: string;   // "HH:mm" format
+  days: number[]; // 0: Sun, 1: Mon, ..., 6: Sat
 }
 
 export interface BakingParameters {
