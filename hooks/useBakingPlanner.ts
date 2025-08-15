@@ -39,6 +39,17 @@ const spanishTimeHeuristics = (query: string): string => {
     });
 };
 
+const scrollToResults = () => {
+    // The lg breakpoint in Tailwind CSS is 1024px.
+    // We scroll if the screen is smaller than this breakpoint.
+    if (window.innerWidth < 1024) {
+        const resultsPanel = document.getElementById('results-panel');
+        if (resultsPanel) {
+            resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+};
+
 
 export const useBakingPlanner = ({
     params,
@@ -98,6 +109,7 @@ export const useBakingPlanner = ({
                 }
                 setResult(formulaResult);
             }
+            setTimeout(scrollToResults, 100);
         } catch (e) {
             if (e instanceof Error) {
                 setError(e.message);
@@ -156,6 +168,7 @@ export const useBakingPlanner = ({
             }));
             setResult(analysis);
             setActivePreset(null);
+            setTimeout(scrollToResults, 100);
         } catch (e) {
             if (e instanceof Error) {
                 setError(e.message);

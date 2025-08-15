@@ -118,7 +118,7 @@ const App: React.FC = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="lg:col-span-3">
+                    <div className="lg:col-span-3" id="results-panel">
                         <ResultsPanel
                             isLoading={isLoading}
                             error={error}
