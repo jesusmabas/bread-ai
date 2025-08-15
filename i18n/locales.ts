@@ -24,7 +24,7 @@ export const en = {
         placeholder: [
             "I want to bake two 900g country loaves for Sunday morning.",
             "Plan a high-hydration ciabatta. I'm only free between 6 PM and 10 PM on weekdays.",
-            "Four 280g Neapolitan pizzas with a 24-hour cold ferment. My kitchen is 22°C.",
+            "Four 280g Neapolitan pizzas for a wood-fired oven. 24-hour cold ferment. My kitchen is 22°C.",
             "A simple focaccia using instant yeast, ready in about 5 hours.",
             "Sourdough baguette recipe, but I need to use a poolish preferment."
         ],
@@ -180,12 +180,19 @@ export const en = {
     },
     yeastAid: {
         title: "Visual guide:",
+        generousHalfTsp: "approx. a generous 1/2 tsp",
+        halfTsp: "approx. 1/2 tsp",
         scantHalfTsp: "approx. a scant 1/2 tsp",
+        generousQuarterTsp: "approx. a generous 1/4 tsp",
         quarterTsp: "approx. 1/4 tsp",
-        generousEighthTsp: "approx. a generous 1/8 tsp",
+        scantQuarterTsp: "approx. a scant 1/4 tsp",
         eighthTsp: "approx. 1/8 tsp",
         pinch: "a good pinch (like for salt)",
-        fewGrains: "just a few grains"
+        fewGrains: "just a few grains",
+        hazelnutSize: "approx. a hazelnut-sized piece",
+        chickpeaSize: "approx. a chickpea-sized piece",
+        peaSize: "approx. a pea-sized piece",
+        smallPeaSize: "approx. a small pea-sized piece"
     },
     calculatorEngine: {
         label: "Plan generator",
@@ -372,7 +379,7 @@ export const es: typeof en = {
         placeholder: [
             "Quiero hornear dos hogazas de 900g para el domingo por la mañana.",
             "Planifica una chapata de alta hidratación. Solo estoy libre entre las 18:00 y las 22:00 los días de diario.",
-            "Cuatro pizzas napolitanas de 280g con 24h de fermentación en frío. Mi cocina está a 22°C.",
+            "Cuatro pizzas napolitanas de 280g para horno de leña. 24h de fermentación en frío. Mi cocina está a 22°C.",
             "Una receta sencilla de focaccia con levadura instantánea, lista en unas 5 horas.",
             "Receta de baguette de masa madre, pero usando un prefermento poolish."
         ],
@@ -528,12 +535,19 @@ export const es: typeof en = {
     },
     yeastAid: {
         title: "Guía visual:",
+        generousHalfTsp: "aprox. un poco más de 1/2 cdta.",
+        halfTsp: "aprox. 1/2 cdta.",
         scantHalfTsp: "aprox. un poco menos de 1/2 cdta.",
+        generousQuarterTsp: "aprox. un poco más de 1/4 cdta.",
         quarterTsp: "aprox. 1/4 cdta.",
-        generousEighthTsp: "aprox. un poco más de 1/8 cdta.",
+        scantQuarterTsp: "aprox. un poco menos de 1/4 cdta.",
         eighthTsp: "aprox. 1/8 cdta.",
         pinch: "una pizca generosa (como de sal)",
-        fewGrains: "solo unos pocos granos"
+        fewGrains: "solo unos pocos granos",
+        hazelnutSize: "aprox. del tamaño de una avellana",
+        chickpeaSize: "aprox. del tamaño de un garbanzo",
+        peaSize: "aprox. del tamaño de un guisante",
+        smallPeaSize: "aprox. del tamaño de un guisante pequeño"
     },
     calculatorEngine: {
         label: "Generador de plan",

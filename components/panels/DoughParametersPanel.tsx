@@ -32,16 +32,24 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
     const { t, formatNumber } = useLocalization();
 
     const getVisualYeastGuide = (grams: number, yeastType: YeastType): string | null => {
-        if (yeastType !== YeastType.INSTANT && yeastType !== YeastType.ACTIVE_DRY) {
-            return null;
+        if (yeastType === YeastType.INSTANT || yeastType === YeastType.ACTIVE_DRY) {
+            if (grams >= 2.0) return null;
+            if (grams > 1.7) return t('yeastAid.generousHalfTsp');
+            if (grams > 1.3) return t('yeastAid.halfTsp');
+            if (grams > 1.0) return t('yeastAid.scantHalfTsp');
+            if (grams > 0.85) return t('yeastAid.generousQuarterTsp');
+            if (grams > 0.65) return t('yeastAid.quarterTsp');
+            if (grams > 0.5) return t('yeastAid.scantQuarterTsp');
+            if (grams > 0.25) return t('yeastAid.eighthTsp');
+            if (grams > 0.1) return t('yeastAid.pinch');
+            if (grams > 0) return t('yeastAid.fewGrains');
+        } else if (yeastType === YeastType.FRESH) {
+            if (grams >= 2.0) return null;
+            if (grams > 1.5) return t('yeastAid.hazelnutSize');
+            if (grams > 1.0) return t('yeastAid.chickpeaSize');
+            if (grams > 0.5) return t('yeastAid.peaSize');
+            if (grams > 0) return t('yeastAid.smallPeaSize');
         }
-        if (grams >= 1.0) return null;
-        if (grams > 0.8) return t('yeastAid.scantHalfTsp');
-        if (grams > 0.6) return t('yeastAid.quarterTsp');
-        if (grams > 0.4) return t('yeastAid.generousEighthTsp');
-        if (grams > 0.25) return t('yeastAid.eighthTsp');
-        if (grams > 0.1) return t('yeastAid.pinch');
-        if (grams > 0) return t('yeastAid.fewGrains');
         return null;
     };
 
@@ -56,18 +64,18 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
                 <InputSlider label={t('params.hydration')} value={params.hydration} onChange={(e) => handleSliderChange('hydration', e)} min={50} max={100} step={1} unit="%" unitSystem={unitSystem}/>
                 <InputSlider label={t('params.salt')} value={params.salt} onChange={(e) => handleSliderChange('salt', e)} min={0} max={5} step={0.1} unit="%" unitSystem={unitSystem}/>
                 <InputSlider label={t('params.ambientTemp')} value={params.temperature} onChange={(e) => handleSliderChange('temperature', e)} min={18} max={32} step={1} unit="°C" unitSystem={unitSystem} />
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{t('params.ovenProfile')}</label>
+                    <select value={params.ovenProfile} onChange={(e) => handleSelectChange('ovenProfile', e)} className="w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                    {Object.keys(OVEN_PROFILE_OPTIONS).map((key) => (<option key={key} value={key}>{t(`ovenProfiles.${key}` as TranslationKey)}</option>))}
+                    </select>
+                </div>
                 <InputSlider label={params.yeastType === YeastType.SOURDOUGH ? t('params.starter') : t('params.yeast')} value={params.yeastAmount} onChange={(e) => handleSliderChange('yeastAmount', e)} min={params.yeastType === YeastType.SOURDOUGH ? 5 : 0.1} max={params.yeastType === YeastType.SOURDOUGH ? 40 : 2.5} step={params.yeastType === YeastType.SOURDOUGH ? 1 : 0.1} unit="%" unitSystem={unitSystem}/>
                 
                 {mode === 'pro' && (
                     <div className="space-y-5 pt-4 border-t border-dashed animate-fade-in">
                         <InputSlider label={t('params.sugar')} value={params.sugar} onChange={(e) => handleSliderChange('sugar', e)} min={0} max={10} step={0.5} unit="%" unitSystem={unitSystem}/>
                         <InputSlider label={t('params.fat')} value={params.fat} onChange={(e) => handleSliderChange('fat', e)} min={0} max={10} step={0.5} unit="%" unitSystem={unitSystem}/>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">{t('params.ovenProfile')}</label>
-                          <select value={params.ovenProfile} onChange={(e) => handleSelectChange('ovenProfile', e)} className="w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
-                            {Object.keys(OVEN_PROFILE_OPTIONS).map((key) => (<option key={key} value={key}>{t(`ovenProfiles.${key}` as TranslationKey)}</option>))}
-                          </select>
-                        </div>
                         <div className="p-4 bg-stone-50 rounded-lg border border-stone-200 space-y-4">
                             <h3 className="font-semibold text-gray-700 flex items-center gap-2">
                                 <Tooltip text={t('tooltips.ddt')}><span className="flex items-center">{t('params.ddt.title')} <Icon icon="fa-solid fa-circle-info" className="ml-1.5 text-gray-400" /></span></Tooltip>
