@@ -12,7 +12,7 @@ interface DDTCalculatorProps {
 }
 
 const DDTCalculator: React.FC<DDTCalculatorProps> = ({ ambientTemp, onClose, unitSystem }) => {
-  const { t } = useLocalization();
+  const { t, formatNumber } = useLocalization();
   const [ddtParams, setDdtParams] = useState({
     targetTemp: 25,
     flourTemp: ambientTemp,
@@ -97,8 +97,8 @@ const DDTCalculator: React.FC<DDTCalculatorProps> = ({ ambientTemp, onClose, uni
             <p className="text-sm font-medium text-gray-600">{t('ddt.requiredWaterTemp')}</p>
             <p className="text-5xl font-bold text-amber-600 my-2">
                 {unitSystem === 'metric' 
-                    ? `${calculatedWaterTemp.toFixed(1)}°C`
-                    : `${celsiusToFahrenheit(calculatedWaterTemp).toFixed(1)}°F`
+                    ? `${formatNumber(calculatedWaterTemp, {maximumFractionDigits: 1})}°C`
+                    : `${formatNumber(celsiusToFahrenheit(calculatedWaterTemp), {maximumFractionDigits: 1})}°F`
                 }
             </p>
         </div>

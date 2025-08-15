@@ -29,7 +29,22 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
     params, mode, setMode, calculatorMode, setCalculatorMode, unitSystem, handleSelectChange, handleSliderChange, handleParamChange,
     setDDTModalOpen, ingredientWeights, doughInsights
 }) => {
-    const { t } = useLocalization();
+    const { t, formatNumber } = useLocalization();
+
+    const getVisualYeastGuide = (grams: number, yeastType: YeastType): string | null => {
+        if (yeastType !== YeastType.INSTANT && yeastType !== YeastType.ACTIVE_DRY) {
+            return null;
+        }
+        if (grams >= 1.0) return null;
+        if (grams > 0.8) return t('yeastAid.scantHalfTsp');
+        if (grams > 0.6) return t('yeastAid.quarterTsp');
+        if (grams > 0.4) return t('yeastAid.generousEighthTsp');
+        if (grams > 0.25) return t('yeastAid.eighthTsp');
+        if (grams > 0.1) return t('yeastAid.pinch');
+        if (grams > 0) return t('yeastAid.fewGrains');
+        return null;
+    };
+
 
     return (
         <div className="bg-white rounded-lg shadow-lg p-6 h-fit">
@@ -92,29 +107,51 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
                          <div className="mb-4">
                             <h3 className="text-lg font-semibold text-amber-900 mb-3">{t('ingredients.preferment.title')}</h3>
                             <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                                <div className="font-medium text-gray-700">{t('ingredients.flour')}:</div><div className="text-right font-mono font-semibold text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.preferment.flour.toFixed(0)}g` : `${gramsToOunces(ingredientWeights.preferment.flour).toFixed(1)}oz`}</div>
-                                <div className="font-medium text-gray-700">{t('ingredients.water')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.preferment.water.toFixed(0)}g` : `${gramsToOunces(ingredientWeights.preferment.water).toFixed(1)}oz`}</div>
-                                <div className="font-medium text-gray-700">{t('params.yeast')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.preferment.yeast.toFixed(2)}g` : `${gramsToOunces(ingredientWeights.preferment.yeast).toFixed(3)}oz`}</div>
+                                <div className="font-medium text-gray-700">{t('ingredients.flour')}:</div><div className="text-right font-mono font-semibold text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.flour, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.flour), {maximumFractionDigits: 1})}oz`}</div>
+                                <div className="font-medium text-gray-700">{t('ingredients.water')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.water, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.water), {maximumFractionDigits: 1})}oz`}</div>
+                                <div className="font-medium text-gray-700">{t('params.yeast')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.yeast, {maximumFractionDigits: 2})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.yeast), {maximumFractionDigits: 3})}oz`}</div>
                                 <div className="col-span-2 mt-2 pt-2 border-t border-dashed"></div>
-                                <div className="font-bold text-gray-800">{t('ingredients.preferment.total' as TranslationKey)}:</div><div className="text-right font-bold font-mono text-amber-900">{unitSystem === 'metric' ? `${ingredientWeights.preferment.total.toFixed(0)}g` : `${gramsToOunces(ingredientWeights.preferment.total).toFixed(1)}oz`}</div>
+                                <div className="font-bold text-gray-800">{t('ingredients.preferment.total' as TranslationKey)}:</div><div className="text-right font-bold font-mono text-amber-900">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.total, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.total), {maximumFractionDigits: 1})}oz`}</div>
                             </div>
                          </div>
                      )}
                     <h3 className="text-lg font-semibold text-amber-900 mb-3">{ingredientWeights.preferment ? t('ingredients.finalDough.title') : t('ingredients.title')}</h3>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                      {ingredientWeights.preferment && <><div className="font-medium text-gray-700">{t('ingredients.preferment.asIngredient')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.preferment.total.toFixed(0)}g` : `${gramsToOunces(ingredientWeights.preferment.total).toFixed(1)}oz`}</div></>}
-                      <div className="font-medium text-gray-700">{t('ingredients.flour')}:</div><div className="text-right font-mono font-semibold text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.finalDough.flour.toFixed(0)}g` : `${gramsToOunces(ingredientWeights.finalDough.flour).toFixed(1)}oz`}</div>
-                      <div className="font-medium text-gray-700">{t('ingredients.water')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.finalDough.water.toFixed(0)}g` : `${gramsToOunces(ingredientWeights.finalDough.water).toFixed(1)}oz`}</div>
-                      <div className="font-medium text-gray-700">{params.yeastType === YeastType.SOURDOUGH ? t('params.starter') : t('params.yeast')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.finalDough.leavening.toFixed(1)}g` : `${gramsToOunces(ingredientWeights.finalDough.leavening).toFixed(2)}oz`}</div>
-                      <div className="font-medium text-gray-700">{t('ingredients.salt')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.finalDough.salt.toFixed(1)}g` : `${gramsToOunces(ingredientWeights.finalDough.salt).toFixed(2)}oz`}</div>
+                      {ingredientWeights.preferment && <><div className="font-medium text-gray-700">{t('ingredients.preferment.asIngredient')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.total, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.total), {maximumFractionDigits: 1})}oz`}</div></>}
+                      <div className="font-medium text-gray-700">{t('ingredients.flour')}:</div><div className="text-right font-mono font-semibold text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.finalDough.flour, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.finalDough.flour), {maximumFractionDigits: 1})}oz`}</div>
+                      <div className="font-medium text-gray-700">{t('ingredients.water')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.finalDough.water, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.finalDough.water), {maximumFractionDigits: 1})}oz`}</div>
+                      
+                      
+                      {(ingredientWeights.finalDough.leavening > 0 || params.yeastType === YeastType.SOURDOUGH) && (() => {
+                          const yeastAmountGrams = ingredientWeights.finalDough.leavening;
+                          const visualAidText = getVisualYeastGuide(yeastAmountGrams, params.yeastType);
+                          const metricYeastDisplay = formatNumber(yeastAmountGrams, { minimumFractionDigits: yeastAmountGrams < 1 && yeastAmountGrams > 0 ? 2 : 1, maximumFractionDigits: 2 });
+                          const imperialYeastDisplay = formatNumber(gramsToOunces(yeastAmountGrams), { maximumFractionDigits: 3 });
+
+                          return (
+                            <>
+                              <div className="font-medium text-gray-700">{params.yeastType === YeastType.SOURDOUGH ? t('params.starter') : t('params.yeast')}:</div>
+                              <div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${metricYeastDisplay}g` : `${imperialYeastDisplay}oz`}</div>
+                              {visualAidText && (
+                                <div className="col-span-2 text-xs text-amber-800 flex justify-end items-center gap-1.5 -mt-1 p-2 bg-amber-50/80 rounded-md border border-amber-200/50">
+                                    <Icon icon="fa-solid fa-eye" className="text-amber-500"/>
+                                    <span className="font-semibold">{t('yeastAid.title')}</span>
+                                    <span>{visualAidText}</span>
+                                </div>
+                              )}
+                            </>
+                          );
+                      })()}
+                      
+                      <div className="font-medium text-gray-700">{t('ingredients.salt')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.finalDough.salt, {maximumFractionDigits: 1})}g` : `${formatNumber(gramsToOunces(ingredientWeights.finalDough.salt), {maximumFractionDigits: 2})}oz`}</div>
                       {params.sugar > 0 && <>
-                        <div className="font-medium text-gray-700">{t('ingredients.sugar')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.finalDough.sugar.toFixed(1)}g` : `${gramsToOunces(ingredientWeights.finalDough.sugar).toFixed(2)}oz`}</div>
+                        <div className="font-medium text-gray-700">{t('ingredients.sugar')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.finalDough.sugar, {maximumFractionDigits: 1})}g` : `${formatNumber(gramsToOunces(ingredientWeights.finalDough.sugar), {maximumFractionDigits: 2})}oz`}</div>
                       </>}
                       {params.fat > 0 && <>
-                        <div className="font-medium text-gray-700">{t('ingredients.fat')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${ingredientWeights.finalDough.fat.toFixed(1)}g` : `${gramsToOunces(ingredientWeights.finalDough.fat).toFixed(2)}oz`}</div>
+                        <div className="font-medium text-gray-700">{t('ingredients.fat')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.finalDough.fat, {maximumFractionDigits: 1})}g` : `${formatNumber(gramsToOunces(ingredientWeights.finalDough.fat), {maximumFractionDigits: 2})}oz`}</div>
                       </>}
                       <div className="col-span-2 mt-2 pt-2 border-t border-dashed"></div>
-                      <div className="font-bold text-gray-800">{t('ingredients.total')}:</div><div className="text-right font-bold font-mono text-amber-900">{unitSystem === 'metric' ? `${ingredientWeights.total.toFixed(0)}g` : `${gramsToOunces(ingredientWeights.total).toFixed(1)}oz`}</div>
+                      <div className="font-bold text-gray-800">{t('ingredients.total')}:</div><div className="text-right font-bold font-mono text-amber-900">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.total, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.total), {maximumFractionDigits: 1})}oz`}</div>
                     </div>
                   </div>
                 )}
@@ -137,7 +174,7 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
                         <div>
                             <div className="flex justify-between items-center text-sm font-medium text-gray-700">
                                 <span>{t('doughInsights.finalSalinity')}</span>
-                                <span className="font-semibold text-amber-900">{doughInsights.finalSalinity}%</span>
+                                <span className="font-semibold text-amber-900">{formatNumber(doughInsights.finalSalinity, {maximumFractionDigits: 2})}%</span>
                             </div>
                              <p className="text-xs text-gray-500 mt-1">{doughInsights.salinityAdvice}</p>
                         </div>

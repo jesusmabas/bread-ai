@@ -1,7 +1,10 @@
 
 
+
+
 import React, { useMemo } from 'react';
 import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line, ReferenceLine, ReferenceArea } from 'recharts';
+import { useLocalization } from '../contexts/LocalizationContext';
 
 interface FermentationCurveChartProps {
   bulkHours: number;
@@ -10,11 +13,12 @@ interface FermentationCurveChartProps {
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
+  const { formatNumber, t } = useLocalization();
   if (active && payload && payload.length) {
     return (
       <div className="p-2 bg-white/80 backdrop-blur-sm rounded-md shadow-md border border-gray-200">
-        <p className="font-semibold text-sm text-gray-700">{`Time: ${label.toFixed(1)}h`}</p>
-        <p className="text-amber-700 font-medium">{`Activity: ${payload[0].value.toFixed(0)}%`}</p>
+        <p className="font-semibold text-sm text-gray-700">{`Time: ${formatNumber(label, {maximumFractionDigits: 1})}h`}</p>
+        <p className="text-amber-700 font-medium">{`Activity: ${formatNumber(payload[0].value, {maximumFractionDigits: 0})}%`}</p>
       </div>
     );
   }
@@ -37,6 +41,7 @@ const WrappedLabel = (props: any) => {
 
 
 const FermentationCurveChart: React.FC<FermentationCurveChartProps> = ({ bulkHours, proofHours, coldProofHours = 0 }) => {
+  const { formatNumber } = useLocalization();
   const chartData = useMemo(() => {
     const totalDuration = bulkHours + proofHours + coldProofHours;
     if (totalDuration <= 0) return [];
@@ -103,7 +108,7 @@ const FermentationCurveChart: React.FC<FermentationCurveChartProps> = ({ bulkHou
   return (
     <div className="h-80 w-full bg-amber-50/50 p-4 rounded-lg border border-amber-200/50">
         <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData} margin={{ top: 5, right: 20, left: 20, bottom: 20 }}>
+            <LineChart data={chartData} margin={{ top: 20, right: 40, left: 30, bottom: 25 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
                 <XAxis 
                     dataKey="time" 
@@ -112,7 +117,7 @@ const FermentationCurveChart: React.FC<FermentationCurveChartProps> = ({ bulkHou
                     unit="h" 
                     stroke="#a8a29e"
                     label={{ value: 'Time (hours)', position: 'insideBottom', offset: -15, fill: '#78716c' }}
-                    tickFormatter={(tick) => tick.toFixed(2)}
+                    tickFormatter={(tick) => formatNumber(tick, {maximumFractionDigits: 2})}
                 />
                 <YAxis 
                     unit="%"

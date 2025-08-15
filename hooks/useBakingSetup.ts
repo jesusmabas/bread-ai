@@ -1,5 +1,7 @@
 
 
+
+
 import { useState, useMemo, useEffect } from 'react';
 import {
   BakingParameters,
@@ -20,7 +22,7 @@ import {
   WorkSchedule,
 } from '../types';
 import { PRESETS, GUIDED_CRUMB_OPTIONS, GUIDED_CRUST_OPTIONS, GUIDED_LEAVENING_OPTIONS, FLOUR_OPTIONS, PREFERMENT_TYPE_OPTIONS } from '../constants';
-import { ouncesToGrams } from '../utils';
+import { ouncesToGrams, parseNumber } from '../utils';
 import { useLocalization } from '../contexts/LocalizationContext';
 import { TranslationKey } from '../i18n/locales';
 
@@ -200,12 +202,12 @@ export const useBakingSetup = () => {
   };
 
   const handleYieldChange = (field: keyof YieldParameters, value: string | number) => {
-    const numericValue = Number(value);
+    const numericValue = parseNumber(value);
     setActivePreset(null as any);
     if (unitSystem === 'imperial' && field === 'pieceWeight') {
         setYieldParams(prev => ({...prev, pieceWeight: ouncesToGrams(numericValue), mode: 'weight'}));
     } else {
-        setYieldParams(prev => ({...prev, [field]: numericValue || value, mode: 'weight'}));
+        setYieldParams(prev => ({...prev, [field]: numericValue, mode: 'weight'}));
     }
   };
 
@@ -373,7 +375,7 @@ export const useBakingSetup = () => {
         if (extensibilityScore < -40) extensibilityAdviceKey = 'doughInsights.extensibilityMessages.low';
         
         return {
-            finalSalinity: finalSalinity.toFixed(2),
+            finalSalinity: finalSalinity,
             salinityAdvice: t(salinityAdviceKey),
             extensibilityScore: Math.max(-100, Math.min(100, extensibilityScore)),
             extensibilityAdvice: t(extensibilityAdviceKey),

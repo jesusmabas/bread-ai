@@ -7,6 +7,7 @@ interface LocalizationContextType {
   language: Language;
   setLanguage: (language: Language) => void;
   t: (key: TranslationKey, replacements?: Record<string, string | number>) => any;
+  formatNumber: (value: number, options?: Intl.NumberFormatOptions) => string;
 }
 
 const LocalizationContext = createContext<LocalizationContextType | undefined>(undefined);
@@ -42,12 +43,19 @@ export const LocalizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     return result;
   }, [language]);
+  
+  const formatNumber = useCallback((value: number, options?: Intl.NumberFormatOptions): string => {
+      if (isNaN(value)) return ''; // Handle NaN gracefully
+      const langLocale = language === 'es' ? 'es-ES' : 'en-US';
+      return new Intl.NumberFormat(langLocale, options).format(value);
+  }, [language]);
 
   const value = useMemo(() => ({
     language,
     setLanguage,
-    t
-  }), [language, t]);
+    t,
+    formatNumber,
+  }), [language, t, formatNumber]);
 
   return (
     <LocalizationContext.Provider value={value}>

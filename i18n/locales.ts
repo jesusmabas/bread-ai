@@ -29,11 +29,11 @@ export const en = {
             "Sourdough baguette recipe, but I need to use a poolish preferment."
         ],
         button: {
-            default: "Create Plan with AI",
+            default: "Create plan with AI",
             loading: "Thinking..."
         },
         proFeature: {
-            title: "Pro Feature",
+            title: "Pro feature",
             description: "Switch to the AI Baker to create plans from natural language."
         }
     },
@@ -42,93 +42,93 @@ export const en = {
         crumb: {
             label: "Desired crumb",
             options: {
-                tight: "Soft & Tight",
-                medium: "Medium & Regular",
-                airy: "Open & Airy"
+                tight: "Soft & tight",
+                medium: "Medium & regular",
+                airy: "Open & airy"
             }
         },
         crust: {
             label: "Desired crust",
             options: {
-                soft: "Soft & Tender",
+                soft: "Soft & tender",
                 crispy: "Crispy",
-                rustic: "Dark & Rustic"
+                rustic: "Dark & rustic"
             }
         },
         leavening: {
             label: "Leavening pace",
             options: {
-                "quick-yeast": "Quick (Yeast)",
+                "quick-yeast": "Quick (yeast)",
                 balanced: "Balanced",
-                "slow-sourdough": "Slow & Complex (Sourdough)"
+                "slow-sourdough": "Slow & complex (sourdough)"
             }
         }
     },
     presets: {
         title: "Quick start: Choose a style",
-        "country-loaf": { name: "Country Loaf", description: "Classic sourdough loaf with an open crumb and crispy crust." },
+        "country-loaf": { name: "Country loaf", description: "Classic sourdough loaf with an open crumb and crispy crust." },
         baguette: { name: "Baguette", description: "A lean, crispy French classic. Requires gentle handling." },
         ciabatta: { name: "Ciabatta", description: "A very high hydration Italian bread with large, irregular holes." },
-        "whole-wheat": { name: "Whole Wheat", description: "A nutritious loaf using whole grain flour, which ferments faster." },
+        "whole-wheat": { name: "Whole wheat", description: "A nutritious loaf using whole grain flour, which ferments faster." },
         focaccia: { name: "Focaccia", description: "Pillowy, dimpled Italian flatbread, rich with olive oil." },
         "neapolitan-pizza": { name: "Neapolitan", description: "Soft, tender, and foldable with a puffy 'cornicione'. Baked hot and fast." },
-        "roman-pizza": { name: "Roman Pizza", description: "Crispy, airy 'pizza in pala'. High hydration and long, cold fermentation." },
-        "ny-pizza": { name: "NY Style", description: "Large, thin, foldable slices. Often contains sugar and oil for tenderness." },
-        "pan-pizza": { name: "Pan Pizza", description: "Thick, chewy, and crispy with a fried-like bottom crust. 'Al taglio' style." }
+        "roman-pizza": { name: "Roman pizza", description: "Crispy, airy 'pizza in pala'. High hydration and long, cold fermentation." },
+        "ny-pizza": { name: "NY style", description: "Large, thin, foldable slices. Often contains sugar and oil for tenderness." },
+        "pan-pizza": { name: "Pan pizza", description: "Thick, chewy, and crispy with a fried-like bottom crust. 'Al taglio' style." }
     },
     yield: {
         title: "Yield & sizing",
-        totalFlour: "Total Flour",
+        totalFlour: "Total flour",
         pieces: "Pieces",
-        weightPerPiece: "Weight/Piece"
+        weightPerPiece: "Weight/piece"
     },
     advanced: {
         title: "Advanced techniques",
         preferment: {
-            label: "Use Preferment (Poolish/Biga)",
+            label: "Use preferment (poolish/biga)",
             type: "Type",
-            flourPct: "% Flour in Preferment",
-            hydration: "Preferment Hydration",
-            yeastPct: "% Yeast (on preferment flour)",
-            fermentationHours: "Preferment Fermentation Time",
-            fermentationTemp: "Preferment Fermentation Temp"
+            flourPct: "% flour in preferment",
+            hydration: "Preferment hydration",
+            yeastPct: "% yeast (on preferment flour)",
+            fermentationHours: "Preferment fermentation time",
+            fermentationTemp: "Preferment fermentation temp"
         },
         coldFermentation: {
-            label: "Use Cold Fermentation",
+            label: "Use cold fermentation",
             durationHours: "Duration",
-            temperature: "Fridge Temperature"
+            temperature: "Fridge temperature"
         },
-        bakeTimeTarget: "Target Bake Time",
+        bakeTimeTarget: "Target bake time",
         workSchedule: {
-            label: "Active Baking Hours",
+            label: "Active baking hours",
             description: "Define a window for active tasks like mixing and shaping. The AI will use passive fermentation (especially cold) to bridge time outside this window.",
-            startTime: "Start Time",
-            endTime: "End Time",
-            availableDays: "Available Days"
+            startTime: "Start time",
+            endTime: "End time",
+            availableDays: "Available days"
         }
     },
     params: {
         title: "Dough parameters",
         mode: { simple: "Simple", pro: "Pro" },
-        flourType: "Flour Type",
-        leaveningAgent: "Leavening Agent",
-        starterActivity: "Starter Activity",
+        flourType: "Flour type",
+        leaveningAgent: "Leavening agent",
+        starterActivity: "Starter activity",
         hydration: "Hydration",
         salt: "Salt",
-        ambientTemp: "Ambient Temp",
+        ambientTemp: "Ambient temp",
         starter: "Starter",
         yeast: "Yeast",
         sugar: "Sugar",
         fat: "Fat",
-        ovenProfile: "Oven Profile",
+        ovenProfile: "Oven profile",
         ddt: {
             title: "Water temp calculator (DDT)",
             button: "Open DDT calculator"
         },
         advancedModel: {
             title: "Advanced fermentation model",
-            q10: "Q10 Factor",
-            tRef: "Reference Temp (T_ref)"
+            q10: "Q10 factor",
+            tRef: "Reference temp (T_ref)"
         }
     },
     ingredients: {
@@ -136,7 +136,7 @@ export const en = {
         preferment: {
             title: "Preferment ingredients",
             asIngredient: "Preferment",
-            total: "Total Preferment"
+            total: "Total preferment"
         },
         finalDough: {
             title: "Final dough ingredients"
@@ -150,7 +150,7 @@ export const en = {
     },
     doughInsights: {
         title: "Dough insights",
-        finalSalinity: "Final Salinity",
+        finalSalinity: "Final salinity",
         salinity: {
             normal: "This salinity level is well-balanced for flavor and fermentation.",
             high: "High salinity typical for pizza; can slightly tighten gluten.",
@@ -178,13 +178,22 @@ export const en = {
             longColdFerment: "Cold fermentation over 72 hours increases the risk of excessive acidity and gluten degradation."
         }
     },
+    yeastAid: {
+        title: "Visual guide:",
+        scantHalfTsp: "approx. a scant 1/2 tsp",
+        quarterTsp: "approx. 1/4 tsp",
+        generousEighthTsp: "approx. a generous 1/8 tsp",
+        eighthTsp: "approx. 1/8 tsp",
+        pinch: "a good pinch (like for salt)",
+        fewGrains: "just a few grains"
+    },
     calculatorEngine: {
         label: "Plan generator",
-        ai: "AI Baker (Pro)",
-        formula: "Formula (Free)"
+        ai: "AI baker (pro)",
+        formula: "Formula (free)"
     },
     mainButton: {
-        default: "Generate Plan",
+        default: "Generate plan",
         loading: "Analyzing..."
     },
     results: {
@@ -212,8 +221,8 @@ export const en = {
         printTitle: "Timeline checklist",
         getHelp: "My dough seems off... Get help!",
         status: {
-            done: "DONE",
-            markComplete: "Mark Complete",
+            done: "Done",
+            markComplete: "Mark complete",
             start: "Start"
         },
         schedule: {
@@ -242,7 +251,7 @@ export const en = {
         problemLabel: "Describe the problem:",
         problemPlaceholder: "e.g., 'My dough has barely risen after 3 hours' or 'It's super sticky and spread out after shaping.'",
         button: {
-            default: "Get Rescue Advice",
+            default: "Get rescue advice",
             loading: "Analyzing..."
         },
         resultsTitle: "Here's what you can try:",
@@ -253,9 +262,9 @@ export const en = {
     recipes: {
         save: {
             title: "Save recipe",
-            nameLabel: "Recipe Name",
+            nameLabel: "Recipe name",
             namePlaceholder: "e.g., My Favorite Country Loaf",
-            notesLabel: "Notes / Version",
+            notesLabel: "Notes / version",
             notesPlaceholder: "e.g., Used Caputo Pizzeria flour, lot 08/2025. Reduced hydration to 72%."
         },
         noNotes: "No notes for this version.",
@@ -273,13 +282,13 @@ export const en = {
     ddt: {
         title: "Water temp calculator (DDT)",
         description: "Calculate the required water temperature to hit your Desired Dough Temperature (DDT).",
-        desiredTemp: "Desired Dough Temp",
-        flourTemp: "Flour Temp",
-        mixerFriction: "Mixer Friction",
-        usePreferment: "Using Preferment?",
-        prefermentTemp: "Preferment Temp",
-        nFactor: "N-Factor (Thermal Masses)",
-        requiredWaterTemp: "Required Water Temperature:"
+        desiredTemp: "Desired dough temp",
+        flourTemp: "Flour temp",
+        mixerFriction: "Mixer friction",
+        usePreferment: "Using preferment?",
+        prefermentTemp: "Preferment temp",
+        nFactor: "N-factor (thermal masses)",
+        requiredWaterTemp: "Required water temperature:"
     },
     loading: {
         title: "Activating AI baker...",
@@ -297,17 +306,17 @@ export const en = {
         q10: "Adjust the scientific model for fermentation. Q10 is the rate of fermentation change for every 10°C."
     },
     flourTypes: {
-        "high-gluten": "High-Gluten (13-14% protein)",
-        bread: "Bread Flour (11-13% protein)",
-        "pizza-00": "`00` Pizza Flour (12-13% protein)",
-        "all-purpose": "All-Purpose (9-11% protein)",
-        "whole-wheat": "Whole Wheat / Rye"
+        "high-gluten": "High-gluten (13-14% protein)",
+        bread: "Bread flour (11-13% protein)",
+        "pizza-00": "`00` pizza flour (12-13% protein)",
+        "all-purpose": "All-purpose (9-11% protein)",
+        "whole-wheat": "Whole wheat / rye"
     },
     yeastTypes: {
-        instant: "Instant Dry Yeast",
-        "active-dry": "Active Dry Yeast",
-        fresh: "Fresh Yeast",
-        sourdough: "Sourdough Starter"
+        instant: "Instant dry yeast",
+        "active-dry": "Active dry yeast",
+        fresh: "Fresh yeast",
+        sourdough: "Sourdough starter"
     },
     starterActivities: {
         slow: "Slow (doubles in >8h at 24°C)",
@@ -319,16 +328,16 @@ export const en = {
         biga: { name: "Biga" }
     },
     ovenProfiles: {
-        "standard-home": "Standard Home Oven",
-        convection: "Convection / Fan Oven",
-        "baking-steel": "Baking Steel",
-        "baking-stone": "Baking Stone",
-        "wood-fired": "Wood-Fired Oven"
+        "standard-home": "Standard home oven",
+        convection: "Convection / fan oven",
+        "baking-steel": "Baking steel",
+        "baking-stone": "Baking stone",
+        "wood-fired": "Wood-fired oven"
     },
     frictionFactors: {
-        manual: "Manual / Hand Mix",
-        spiral: "Spiral Mixer",
-        planetary: "Planetary Mixer"
+        manual: "Manual / hand mix",
+        spiral: "Spiral mixer",
+        planetary: "Planetary mixer"
     },
     errors: {
         unknown: "An unexpected error occurred.",
@@ -368,11 +377,11 @@ export const es: typeof en = {
             "Receta de baguette de masa madre, pero usando un prefermento poolish."
         ],
         button: {
-            default: "Crear Plan con IA",
+            default: "Crear plan con IA",
             loading: "Pensando..."
         },
         proFeature: {
-            title: "Función Pro",
+            title: "Función pro",
             description: "Cambia a Panadero IA para crear planes desde lenguaje natural."
         }
     },
@@ -381,85 +390,85 @@ export const es: typeof en = {
         crumb: {
             label: "Miga deseada",
             options: {
-                tight: "Suave y Compacta",
-                medium: "Media y Regular",
-                airy: "Abierta y Aireada"
+                tight: "Suave y compacta",
+                medium: "Media y regular",
+                airy: "Abierta y aireada"
             }
         },
         crust: {
             label: "Corteza deseada",
             options: {
-                soft: "Suave y Tierna",
+                soft: "Suave y tierna",
                 crispy: "Crujiente",
-                rustic: "Oscura y Rústica"
+                rustic: "Oscura y rústica"
             }
         },
         leavening: {
             label: "Ritmo de fermentación",
             options: {
-                "quick-yeast": "Rápida (Levadura)",
+                "quick-yeast": "Rápida (levadura)",
                 balanced: "Equilibrada",
-                "slow-sourdough": "Lenta y Compleja (Masa Madre)"
+                "slow-sourdough": "Lenta y compleja (masa madre)"
             }
         }
     },
     presets: {
         title: "Inicio rápido: Elige un estilo",
-        "country-loaf": { name: "Pan de Campo", description: "Clásico pan de masa madre con miga abierta y corteza crujiente." },
+        "country-loaf": { name: "Pan de campo", description: "Clásico pan de masa madre con miga abierta y corteza crujiente." },
         baguette: { name: "Baguette", description: "Un clásico francés, magro y crujiente. Requiere manejo delicado." },
         ciabatta: { name: "Chapata", description: "Pan italiano de muy alta hidratación con alveolos grandes e irregulares." },
-        "whole-wheat": { name: "Pan Integral", description: "Un pan nutritivo con harina integral, que fermenta más rápido." },
+        "whole-wheat": { name: "Pan integral", description: "Un pan nutritivo con harina integral, que fermenta más rápido." },
         focaccia: { name: "Focaccia", description: "Pan plano italiano, esponjoso y cubierto de aceite de oliva." },
-        "neapolitan-pizza": { name: "Pizza Napolitana", description: "Suave, tierna y plegable con un 'cornicione' inflado. Horneada muy caliente y rápido." },
-        "roman-pizza": { name: "Pizza Romana", description: "Crujiente y aireada 'pizza in pala'. Alta hidratación y fermentación larga en frío." },
-        "ny-pizza": { name: "Pizza Estilo NY", description: "Porciones grandes, finas y plegables. A menudo con azúcar y aceite." },
-        "pan-pizza": { name: "Pizza de Molde", description: "Gruesa, masticable y crujiente con una base frita. Estilo 'al taglio'." }
+        "neapolitan-pizza": { name: "Pizza napolitana", description: "Suave, tierna y plegable con un 'cornicione' inflado. Horneada muy caliente y rápido." },
+        "roman-pizza": { name: "Pizza romana", description: "Crujiente y aireada 'pizza in pala'. Alta hidratación y fermentación larga en frío." },
+        "ny-pizza": { name: "Pizza estilo NY", description: "Porciones grandes, finas y plegables. A menudo con azúcar y aceite." },
+        "pan-pizza": { name: "Pizza de molde", description: "Gruesa, masticable y crujiente con una base frita. Estilo 'al taglio'." }
     },
     yield: {
         title: "Rendimiento y tamaño",
-        totalFlour: "Harina Total",
+        totalFlour: "Harina total",
         pieces: "Piezas",
-        weightPerPiece: "Peso/Pieza"
+        weightPerPiece: "Peso/pieza"
     },
     advanced: {
         title: "Técnicas avanzadas",
         preferment: {
-            label: "Usar Prefermento (Poolish/Biga)",
+            label: "Usar prefermento (poolish/biga)",
             type: "Tipo",
-            flourPct: "% Harina en Prefermento",
-            hydration: "Hidratación del Prefermento",
-            yeastPct: "% Levadura (sobre harina del prefermento)",
-            fermentationHours: "Tiempo Fermentación Prefermento",
-            fermentationTemp: "Temp. Fermentación Prefermento"
+            flourPct: "% harina en prefermento",
+            hydration: "Hidratación del prefermento",
+            yeastPct: "% levadura (sobre harina del prefermento)",
+            fermentationHours: "Tiempo fermentación prefermento",
+            fermentationTemp: "Temp. fermentación prefermento"
         },
         coldFermentation: {
-            label: "Usar Fermentación en Frío",
+            label: "Usar fermentación en frío",
             durationHours: "Duración",
-            temperature: "Temperatura del Frigorífico"
+            temperature: "Temperatura del frigorífico"
         },
-        bakeTimeTarget: "Hora de Horneado Objetivo",
+        bakeTimeTarget: "Hora de horneado objetivo",
         workSchedule: {
-            label: "Horario de Horneado Activo",
+            label: "Horario de horneado activo",
             description: "Define una ventana para tareas activas como mezclar y formar. La IA usará fermentación pasiva (especialmente en frío) para cubrir el tiempo fuera de esta ventana.",
-            startTime: "Hora de Inicio",
-            endTime: "Hora de Fin",
-            availableDays: "Días Disponibles"
+            startTime: "Hora de inicio",
+            endTime: "Hora de fin",
+            availableDays: "Días disponibles"
         }
     },
     params: {
         title: "Parámetros de la masa",
         mode: { simple: "Sencillo", pro: "Pro" },
-        flourType: "Tipo de Harina",
-        leaveningAgent: "Agente Leudante",
-        starterActivity: "Actividad de la Masa Madre",
+        flourType: "Tipo de harina",
+        leaveningAgent: "Agente leudante",
+        starterActivity: "Actividad de la masa madre",
         hydration: "Hidratación",
         salt: "Sal",
-        ambientTemp: "Temp. Ambiente",
-        starter: "Masa Madre",
+        ambientTemp: "Temp. ambiente",
+        starter: "Masa madre",
         yeast: "Levadura",
         sugar: "Azúcar",
         fat: "Grasa",
-        ovenProfile: "Perfil del Horno",
+        ovenProfile: "Perfil del horno",
         ddt: {
             title: "Calculadora de TDA",
             button: "Abrir calculadora de TDA"
@@ -467,7 +476,7 @@ export const es: typeof en = {
         advancedModel: {
             title: "Modelo de fermentación avanzado",
             q10: "Factor Q10",
-            tRef: "Temp. de Referencia (T_ref)"
+            tRef: "Temp. de referencia (T_ref)"
         }
     },
     ingredients: {
@@ -475,7 +484,7 @@ export const es: typeof en = {
         preferment: {
             title: "Ingredientes del prefermento",
             asIngredient: "Prefermento",
-            total: "Total Prefermento"
+            total: "Total prefermento"
         },
         finalDough: {
             title: "Ingredientes de la masa final"
@@ -489,7 +498,7 @@ export const es: typeof en = {
     },
     doughInsights: {
         title: "Análisis de la masa",
-        finalSalinity: "Salinidad Final",
+        finalSalinity: "Salinidad final",
         salinity: {
             normal: "Nivel de sal bien equilibrado para sabor y fermentación.",
             high: "Salinidad alta, típica para pizza; puede apretar un poco el gluten.",
@@ -517,13 +526,22 @@ export const es: typeof en = {
             longColdFerment: "Una fermentación en frío de más de 72 horas aumenta el riesgo de acidez excesiva y degradación del gluten."
         }
     },
+    yeastAid: {
+        title: "Guía visual:",
+        scantHalfTsp: "aprox. un poco menos de 1/2 cdta.",
+        quarterTsp: "aprox. 1/4 cdta.",
+        generousEighthTsp: "aprox. un poco más de 1/8 cdta.",
+        eighthTsp: "aprox. 1/8 cdta.",
+        pinch: "una pizca generosa (como de sal)",
+        fewGrains: "solo unos pocos granos"
+    },
     calculatorEngine: {
         label: "Generador de plan",
-        ai: "Panadero IA (Pro)",
-        formula: "Fórmula (Gratis)"
+        ai: "Panadero IA (pro)",
+        formula: "Fórmula (gratis)"
     },
     mainButton: {
-        default: "Generar Plan",
+        default: "Generar plan",
         loading: "Analizando..."
     },
     results: {
@@ -548,11 +566,11 @@ export const es: typeof en = {
     },
     timeline: {
         liveTitle: "Cronología en vivo",
-        printTitle: "Lista de pasos (Checklist)",
+        printTitle: "Lista de pasos (checklist)",
         getHelp: "Mi masa parece rara... ¡Ayuda!",
         status: {
-            done: "LISTO",
-            markComplete: "Marcar como Completo",
+            done: "Listo",
+            markComplete: "Marcar como completo",
             start: "Empezar"
         },
         schedule: {
@@ -581,7 +599,7 @@ export const es: typeof en = {
         problemLabel: "Describe el problema:",
         problemPlaceholder: "Ej: 'Mi masa apenas ha subido después de 3 horas' o 'Está súper pegajosa y se desparrama después de formarla.'",
         button: {
-            default: "Obtener Consejo de Rescate",
+            default: "Obtener consejo de rescate",
             loading: "Analizando..."
         },
         resultsTitle: "Esto es lo que puedes intentar:",
@@ -592,9 +610,9 @@ export const es: typeof en = {
     recipes: {
         save: {
             title: "Guardar receta",
-            nameLabel: "Nombre de la Receta",
+            nameLabel: "Nombre de la receta",
             namePlaceholder: "Ej: Mi Pan de Campo Favorito",
-            notesLabel: "Notas / Versión",
+            notesLabel: "Notas / versión",
             notesPlaceholder: "Ej: Usé harina Caputo Pizzeria, lote 08/2025. Reduje la hidratación al 72%."
         },
         noNotes: "No hay notas para esta versión.",
@@ -612,13 +630,13 @@ export const es: typeof en = {
     ddt: {
         title: "Calculadora de TDA",
         description: "Calcula la temperatura del agua necesaria para alcanzar tu Temperatura de Dough Deseada (TDA).",
-        desiredTemp: "Temp. de Masa Deseada",
-        flourTemp: "Temp. de la Harina",
-        mixerFriction: "Fricción de la Amasadora",
-        usePreferment: "¿Usando Prefermento?",
-        prefermentTemp: "Temp. del Prefermento",
-        nFactor: "Factor-N (Masas Térmicas)",
-        requiredWaterTemp: "Temperatura del Agua Requerida:"
+        desiredTemp: "Temp. de masa deseada",
+        flourTemp: "Temp. de la harina",
+        mixerFriction: "Fricción de la amasadora",
+        usePreferment: "¿Usando prefermento?",
+        prefermentTemp: "Temp. del prefermento",
+        nFactor: "Factor-N (masas térmicas)",
+        requiredWaterTemp: "Temperatura del agua requerida:"
     },
     loading: {
         title: "Activando panadero IA...",
@@ -636,17 +654,17 @@ export const es: typeof en = {
         q10: "Ajusta el modelo científico para la fermentación. Q10 es la tasa de cambio de la fermentación por cada 10°C."
     },
     flourTypes: {
-        "high-gluten": "Harina de Gran Fuerza (13-14% proteína)",
-        bread: "Harina de Fuerza (11-13% proteína)",
-        "pizza-00": "Harina de Pizza `00` (12-13% proteína)",
-        "all-purpose": "Harina de Trigo Común (9-11% proteína)",
-        "whole-wheat": "Harina Integral / Centeno"
+        "high-gluten": "Harina de gran fuerza (13-14% proteína)",
+        bread: "Harina de fuerza (11-13% proteína)",
+        "pizza-00": "Harina de pizza `00` (12-13% proteína)",
+        "all-purpose": "Harina de trigo común (9-11% proteína)",
+        "whole-wheat": "Harina integral / centeno"
     },
     yeastTypes: {
-        instant: "Levadura Seca Instantánea",
-        "active-dry": "Levadura Seca Activa",
-        fresh: "Levadura Fresca",
-        sourdough: "Masa Madre"
+        instant: "Levadura seca instantánea",
+        "active-dry": "Levadura seca activa",
+        fresh: "Levadura fresca",
+        sourdough: "Masa madre"
     },
     starterActivities: {
         slow: "Lenta (dobla en >8h a 24°C)",
@@ -658,16 +676,16 @@ export const es: typeof en = {
         biga: { name: "Biga" }
     },
     ovenProfiles: {
-        "standard-home": "Horno Doméstico Estándar",
-        convection: "Horno de Convección / Ventilador",
-        "baking-steel": "Acero para Hornear",
-        "baking-stone": "Piedra para Hornear",
-        "wood-fired": "Horno de Leña"
+        "standard-home": "Horno doméstico estándar",
+        convection: "Horno de convección / ventilador",
+        "baking-steel": "Acero para hornear",
+        "baking-stone": "Piedra para hornear",
+        "wood-fired": "Horno de leña"
     },
     frictionFactors: {
-        manual: "Amasado a Mano",
-        spiral: "Amasadora de Espiral",
-        planetary: "Amasadora Planetaria"
+        manual: "Amasado a mano",
+        spiral: "Amasadora de espiral",
+        planetary: "Amasadora planetaria"
     },
     errors: {
         unknown: "Ocurrió un error inesperado.",

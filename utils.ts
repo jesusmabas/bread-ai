@@ -60,6 +60,19 @@ export const parseDurationToHours = (durationStr: string): number => {
   return count > 0 ? totalHours / count : 0;
 };
 
+/**
+ * Parses a string that may contain a comma as a decimal separator into a number.
+ * @param value The string or number to parse.
+ * @returns A number, or NaN if parsing fails.
+ */
+export const parseNumber = (value: string | number): number => {
+    if (typeof value === 'number') return value;
+    if (typeof value !== 'string') return NaN;
+    if (value.trim() === '') return 0; // Handle empty string as 0 for user-friendliness
+    return parseFloat(value.replace(',', '.'));
+};
+
+
 // --- Unit Conversion Utilities ---
 
 export const celsiusToFahrenheit = (c: number): number => c * 9 / 5 + 32;

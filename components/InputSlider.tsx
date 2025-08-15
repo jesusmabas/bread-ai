@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UnitSystem } from '../types';
-import { celsiusToFahrenheit, fahrenheitToCelsius } from '../utils';
+import { celsiusToFahrenheit, fahrenheitToCelsius, parseNumber } from '../utils';
+import { useLocalization } from '../contexts/LocalizationContext';
 
 interface InputSliderProps {
   label: string;
@@ -14,6 +15,7 @@ interface InputSliderProps {
 }
 
 const InputSlider: React.FC<InputSliderProps> = ({ label, value, min, max, step, unit, onChange, unitSystem }) => {
+  const { formatNumber } = useLocalization();
   const isImperialTemp = unitSystem === 'imperial' && unit === '°C';
 
   const displayValue = isImperialTemp ? celsiusToFahrenheit(value) : value;
@@ -25,17 +27,30 @@ const InputSlider: React.FC<InputSliderProps> = ({ label, value, min, max, step,
   
   const inputId = `slider-text-input-${label.replace(/\s+/g, '-')}`;
 
-  // Local state for the text input to allow for intermediate values (e.g., "5.")
+  // Local state for the text input to allow for intermediate values (e.g., "5,")
   const [textValue, setTextValue] = useState('');
 
   useEffect(() => {
     const inputIsFocused = document.activeElement?.id === inputId;
     // Only update text field from props if it's not being actively edited.
     if (!inputIsFocused) {
-      const precision = unit.includes('%') || !isImperialTemp ? 1 : 0;
-      setTextValue(displayValue.toFixed(precision));
+      let precision = 0;
+      if (String(step).includes('.')) {
+          precision = String(step).split('.')[1].length;
+      }
+      
+      const options: Intl.NumberFormatOptions = {
+          maximumFractionDigits: isImperialTemp ? 0 : precision,
+      };
+
+      if (unit === '%') {
+        options.minimumFractionDigits = 1;
+        options.maximumFractionDigits = 1;
+      }
+      
+      setTextValue(formatNumber(displayValue, options));
     }
-  }, [displayValue, unit, isImperialTemp, inputId]);
+  }, [displayValue, unit, isImperialTemp, inputId, formatNumber, step]);
 
   const handleRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const sliderValue = parseFloat(e.target.value);
@@ -50,12 +65,22 @@ const InputSlider: React.FC<InputSliderProps> = ({ label, value, min, max, step,
   };
 
   const commitTextChange = (inputValue: string) => {
-    let numericValue = parseFloat(inputValue);
+    let numericValue = parseNumber(inputValue);
 
     if (isNaN(numericValue)) {
         // if invalid, reset to the last valid value from props
-        const precision = unit.includes('%') || !isImperialTemp ? 1 : 0;
-        setTextValue(displayValue.toFixed(precision));
+        let precision = 0;
+        if (String(step).includes('.')) {
+            precision = String(step).split('.')[1].length;
+        }
+        const options: Intl.NumberFormatOptions = {
+            maximumFractionDigits: isImperialTemp ? 0 : precision,
+        };
+        if (unit === '%') {
+          options.minimumFractionDigits = 1;
+          options.maximumFractionDigits = 1;
+        }
+        setTextValue(formatNumber(displayValue, options));
         return;
     }
 
@@ -86,11 +111,9 @@ const InputSlider: React.FC<InputSliderProps> = ({ label, value, min, max, step,
         <div className="flex items-center gap-1">
             <input
                 id={inputId}
-                type="number"
+                type="text"
+                inputMode='decimal'
                 value={textValue}
-                min={displayMin}
-                max={displayMax}
-                step={numberInputStep}
                 onChange={handleTextChange}
                 onBlur={handleBlur}
                 onKeyDown={handleKeyDown}
