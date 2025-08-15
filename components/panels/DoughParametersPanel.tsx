@@ -109,7 +109,23 @@ export const DoughParametersPanel: React.FC<DoughParametersPanelProps> = ({
                             <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                                 <div className="font-medium text-gray-700">{t('ingredients.flour')}:</div><div className="text-right font-mono font-semibold text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.flour, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.flour), {maximumFractionDigits: 1})}oz`}</div>
                                 <div className="font-medium text-gray-700">{t('ingredients.water')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.water, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.water), {maximumFractionDigits: 1})}oz`}</div>
-                                <div className="font-medium text-gray-700">{t('params.yeast')}:</div><div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.yeast, {maximumFractionDigits: 2})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.yeast), {maximumFractionDigits: 3})}oz`}</div>
+                                {(() => {
+                                    const yeastAmountGrams = ingredientWeights.preferment.yeast;
+                                    const visualAidText = getVisualYeastGuide(yeastAmountGrams, YeastType.INSTANT);
+                                    const metricYeastDisplay = formatNumber(yeastAmountGrams, { minimumFractionDigits: yeastAmountGrams < 1 && yeastAmountGrams > 0 ? 2 : 1, maximumFractionDigits: 2 });
+                                    const imperialYeastDisplay = formatNumber(gramsToOunces(yeastAmountGrams), { maximumFractionDigits: 3 });
+                                    return <>
+                                        <div className="font-medium text-gray-700">{t('params.yeast')}:</div>
+                                        <div className="text-right font-mono text-gray-800">{unitSystem === 'metric' ? `${metricYeastDisplay}g` : `${imperialYeastDisplay}oz`}</div>
+                                        {visualAidText && (
+                                          <div className="col-span-2 text-xs text-amber-800 flex justify-end items-center gap-1.5 -mt-1 p-2 bg-amber-50/80 rounded-md border border-amber-200/50">
+                                              <Icon icon="fa-solid fa-eye" className="text-amber-500"/>
+                                              <span className="font-semibold">{t('yeastAid.title')}</span>
+                                              <span>{visualAidText}</span>
+                                          </div>
+                                        )}
+                                    </>
+                               })()}
                                 <div className="col-span-2 mt-2 pt-2 border-t border-dashed"></div>
                                 <div className="font-bold text-gray-800">{t('ingredients.preferment.total' as TranslationKey)}:</div><div className="text-right font-bold font-mono text-amber-900">{unitSystem === 'metric' ? `${formatNumber(ingredientWeights.preferment.total, {maximumFractionDigits: 0})}g` : `${formatNumber(gramsToOunces(ingredientWeights.preferment.total), {maximumFractionDigits: 1})}oz`}</div>
                             </div>
